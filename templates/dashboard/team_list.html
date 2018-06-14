@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Teams{% endblock %}
+
+{% block content %}
+    <h1 class="title">Teams</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>World Cup Won </th>
+            <th>Code</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in team_list %}
+            <tr>
+                <td><a href="{% url 'team-detail' team.pk %}">{{ team.name }}</a></td>
+                <td>{{ team.cups }}</td>
+                <td>{{ team.code }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

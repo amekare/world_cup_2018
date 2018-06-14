@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ team.city }} {{ team.name }}{% endblock %}
+
+{% block content %}
+    <a class="button is-success" href="{% url 'team-list' %}">Go back</a>
+    <hr>
+    <div class="level">
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Name</p>
+                <p class="title">{{ team.name }}</p>
+                <p class="heading">World Cup Won</p>
+                <p class="title">{{ team.cups }}</p>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="level">
+        <div>
+            <p class="title">
+                Players
+            </p>
+        </div>
+        <br/>
+    </div>
+    <div class="level">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Jersey number</th>
+                <th>Positions</th>
+                <th>Goals in World Cup</th>
+                <th>World Cup Played</th>
+                <th>World Cup Won</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for player in team.player_set.all %}
+                <tr>
+                    <td><a href="{% url 'player-detail' player.pk %}">{{ player.name }}</a></td>
+                    <td>{{ player.jerseyNumber }}</td>
+                    {% for position in player.positions.all %}
+
+                        <td>{{ position.name     }}</td>
+                    {% endfor %}
+                    <td>{{ player.world_cups }}</td>
+                    <td>{{ player.world_cups_won }}</td>
+                    <td>{{ player.goals }}</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+    <hr>
+    <a class="button is-danger is-pulled-right" href="{% url 'team-delete' team.pk %}">Delete</a>
+    <a class="button is-info is-pulled-left" href="{% url 'team-update' team.pk %}">Update</a>
+{% endblock %}

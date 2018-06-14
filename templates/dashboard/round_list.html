@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Groups{% endblock %}
+
+{% block content %}
+    <h1 class="title">Groups</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Group</th>
+            <th>Teams </th>
+            <th>Points </th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for group in group_list %}
+            <tr>
+                <td><a href="{% url 'group-detail' group.pk %}">{{ group.group }}</a></td>
+                <td>
+                    {% for team in group.teams.all %}
+                        <li>{{ team.name }}</li>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

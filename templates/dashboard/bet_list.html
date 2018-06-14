@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Bets{% endblock %}
+
+{% block content %}
+    <h1 class="title">Bets</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Gambler</th>
+            <th>Team1</th>
+            <th>Goals</th>
+            <th>Team2</th>
+            <th>Goals</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for bet in bet_list %}
+            <tr>
+                <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.source }}</a></td>
+                <td>{{ bet.team1 }}</td>
+                <td>{{ bet.goals_team1 }}</td>
+                <td>{{ bet.team2 }}</td>
+                <td>{{ bet.goals_team2 }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
