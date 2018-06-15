@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ team.city }} {{ team.name }}{% endblock %}
+{% block title %} {{ team.name }}{% endblock %}
 
 {% block content %}
-    <a class="button is-success" href="{% url 'team-list' %}">Go back</a>
+    <a class="button is-success" href="{% url 'team-list' %}">Volver</a>
     <hr>
     <div class="level">
         <div class="level-item has-text-centered">
             <div>
-                <p class="heading">Name</p>
+                <p class="heading">Nombre</p>
                 <p class="title">{{ team.name }}</p>
-                <p class="heading">World Cup Won</p>
+                <p class="heading">Copas ganadas</p>
                 <p class="title">{{ team.cups }}</p>
             </div>
         </div>
@@ -20,7 +20,7 @@
     <div class="level">
         <div>
             <p class="title">
-                Players
+                Jugadores
             </p>
         </div>
         <br/>
@@ -29,12 +29,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Jersey number</th>
-                <th>Positions</th>
-                <th>Goals in World Cup</th>
-                <th>World Cup Played</th>
-                <th>World Cup Won</th>
+                <th>Nombre</th>
+                <th>Número de camiseta</th>
+                <th>Posiciones</th>
+                <th>Goles en copa del mundo</th>
+                <th>Participación en copas</th>
+                <th>Copas ganadas</th>
             </tr>
             </thead>
             <tbody>
