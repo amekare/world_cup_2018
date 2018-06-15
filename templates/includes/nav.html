@@ -1,8 +1,8 @@
 <nav class="navbar is-transparent">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'index' %}">
-            <img src="http://www.goplayball.com/images/gpb-playball-logo.png" alt="Fútbol"
-                 width="112" height="28">
+            <img src="https://5.imimg.com/data5/IJ/JK/MY-11744895/playing-football-500x500.jpg" alt="Fútbol"
+                 width="28" height="28">
         </a>
         <div class="navbar-burger burger" data-target="navbar-menu">
             <span></span>
@@ -38,3 +38,9 @@
         </div>
     </div>
 </nav>
+
+{% block javascript %}
+    <script type="text/javascript"
+            src="/static/js/menu.js"></script>
+    <!-- Yeah, and more js, of course -->
+    {% endblock javascript %}
