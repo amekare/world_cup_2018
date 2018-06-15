@@ -112,5 +112,5 @@ class Gambler(models.Model):
         +self.points_semi + self.points_winner
 
 
-def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name
