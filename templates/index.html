@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}Index{% endblock %}
 
 {% block content %}
-    <h1 class="title has-text-centered">Welcome to Soccer World Cup 2018!</h1>
-
+    <h1 class="title has-text-centered">Quiniela VAS para el Mundial de Fútbol 2018!</h1>
+    <img src="{% static 'cup.jpg' %}" />
 
 {% endblock %}

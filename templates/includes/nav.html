@@ -1,7 +1,7 @@
 <nav class="navbar is-transparent">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'index' %}">
-            <img src="http://www.goplayball.com/images/gpb-playball-logo.png" alt="Soccer"
+            <img src="http://www.goplayball.com/images/gpb-playball-logo.png" alt="Fútbol"
                  width="112" height="28">
         </a>
         <div class="navbar-burger burger" data-target="navbar-menu">
@@ -14,24 +14,24 @@
     <div id="navbar-menu" class="navbar-menu">
         <div class="navbar-start">
             <a class="navbar-item" href="{% url 'index' %}">
-                Home
+                Inicio
             </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link" href="#">
-                    Sections
+                    Secciones
                 </a>
                 <div class="navbar-dropdown is-boxed">
                     <a class="navbar-item" href="{% url 'team-list' %}">
-                        Teams
+                        Equipos
                     </a>
                     <a class="navbar-item" href="{% url 'player-list' %}">
-                        Players
+                        Jugadores
                     </a>
                     <a class="navbar-item" href="{% url 'round-list' %}">
-                        Rounds
+                        Resultados
                     </a>
                     <a class="navbar-item" href="{% url 'bet-list' %}">
-                        Bets
+                        Apuestas
                     </a>
                 </div>
             </div>
