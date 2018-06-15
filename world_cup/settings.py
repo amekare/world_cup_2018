@@ -21,7 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'lng12ra=4tu_%q4374=efkobzt-^&jfj3anioms!m3mt7ykv1q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+server = hostname
+
 DEBUG = True
+if server =='giles-liveconsole3'
+    DEBUG = False
 
 
 
