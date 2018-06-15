@@ -81,11 +81,8 @@ class Bet(models.Model):
     goals_team2 = models.IntegerField(default=0, verbose_name='Goles equipo 2')
     checked = models.BooleanField(default=False)
 
-    # def save(self, *args, **kwargs):
-    #     if not self.team1:
-    #         team1 = self.match.team1
-    #         team2 = self.match.team2
-    #     return super(Bet, self).save(*args, **kwargs)
+    class Meta:
+        ordering = ["team1", "team2"]
 
     def __str__(self):
         return self.team1.name + " - " + self.team2.name
