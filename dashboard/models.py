@@ -82,7 +82,8 @@ class Bet(models.Model):
     checked = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ["team1", "team2"]
+        #ordering = ["team1", "team2"]
+        ordering = ["source"]
 
     def __str__(self):
         return self.team1.name + " - " + self.team2.name
