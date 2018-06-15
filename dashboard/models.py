@@ -32,7 +32,7 @@ class Round(models.Model):
         ('6', 'Finales'),
     )
     group = models.CharField(choices=GROUP_CHOICES, max_length=1, null=True)
-    round = models.CharField(choices=ROUND_CHOICES, max_length=1, default='1')
+    stage = models.CharField(choices=ROUND_CHOICES, max_length=1, default='1')
     played_matches = models.IntegerField(default=0)
     won = models.IntegerField(default=0)
     draw = models.IntegerField(default=0)
@@ -69,12 +69,15 @@ class Player(models.Model):
 
 
 class Bet(models.Model):
-    source = models.ForeignKey('Gambler', on_delete=models.DO_NOTHING)
-    match = models.ForeignKey('Match', on_delete=models.DO_NOTHING)
-    team1 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='bteam1', default="2")
-    team2 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='bteam2', default="2")
-    goals_team1 = models.IntegerField(default=0)
-    goals_team2 = models.IntegerField(default=0)
+    source = models.ForeignKey('Gambler', on_delete=models.DO_NOTHING, verbose_name='Fuente')
+    match = models.ForeignKey('Match', on_delete=models.DO_NOTHING, verbose_name='Partido de referencia')
+    team1 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='bteam1', default="2",
+                              verbose_name='Equipo 1')
+    team2 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='bteam2', default="2",
+                              verbose_name='Equipo 2')
+    goals_team1 = models.IntegerField(default=0, verbose_name='Goles equipo 1')
+    goals_team2 = models.IntegerField(default=0, verbose_name='Goles equipo 2')
+    checked = models.BooleanField(default=False)
 
     # def save(self, *args, **kwargs):
     #     if not self.team1:
@@ -104,5 +107,10 @@ class Gambler(models.Model):
     points_3er = models.IntegerField(default=0)
     points_final = models.IntegerField(default=0)
 
-    def __str__(self):
-        return self.name
+    def total(self):
+        return self.points_3er + self.points_4vo + self.points_8vo + self.points_final + self.points_score
+        +self.points_semi + self.points_winner
+
+
+def __str__(self):
+    return self.name

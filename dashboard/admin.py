@@ -13,7 +13,7 @@ class PlayerAdmin(admin.ModelAdmin):
 
 
 class RoundAdmin(admin.ModelAdmin):
-    list_display = ('group', 'round', 'team', 'played_matches', 'played_matches', 'won', 'draw', 'lose', 'points')
+    list_display = ('group', 'stage', 'team', 'played_matches', 'won', 'draw', 'lose', 'points')
     search_fields = ('group', 'team__name')
 
 
@@ -23,7 +23,7 @@ class MatchAdmin(admin.ModelAdmin):
 
 
 class BetAdmin(admin.ModelAdmin):
-    list_display = ('source', 'match', 'team1', 'team2', 'goals_team1', 'goals_team2')
+    list_display = ('source', 'match', 'team1', 'team2', 'goals_team1', 'goals_team2', 'checked')
     search_fields = ('source__name', 'team1__name', 'team2__name')
 
 

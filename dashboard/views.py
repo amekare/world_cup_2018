@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from dashboard.models import Team, Player, Round, Bet
+from dashboard.models import Team, Player, Round, Bet, Gambler
 
 
 class TeamListView(ListView):
@@ -120,3 +120,47 @@ class BetUpdateView(UpdateView):
 class BetDeleteView(DeleteView):
     model = Bet
     success_url = reverse_lazy('bet-list')
+
+
+class GamblerListView(ListView):
+    model = Gambler
+
+
+class GamblerDetailView(DetailView):
+    model = Gambler
+
+
+def update_first_round():
+    source = Gambler.objects.get(name='Oficial')
+    results = Bet.objects.filter(source=source, checked=False)
+    print(results)
+    for result in results:
+        print(result.checked)
+        round1 = Round.objects.get(team=result.team1, stage='1')
+        round2 = Round.objects.get(team=result.team2, stage='1')
+        round1.played_matches += 1
+        round2.played_matches += 1
+        if result.goals_team1 > result.goals_team2:
+            round1.won += 1
+            round2.lose += 1
+        if result.goals_team1 == result.goals_team2:
+            round1.draw += 1
+            round2.draw += 1
+        if result.goals_team1 < result.goals_team2:
+            round1.lose += 1
+            round2.won += 1
+        round1.save()
+        round2.save()
+        result.checked = True
+        result.save()
+    stage = '1'
+    update_scores(stage)
+    print("Actualizados: " + str(len(results)))
+
+
+def update_scores(stage):
+    rounds = Round.objects.filter(stage=stage)
+    for r in rounds:
+        r.points = r.won * 3 + r.draw * 1
+        r.save()
+    print(str(len(rounds)))

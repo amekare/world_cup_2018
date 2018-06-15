@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Participantes{% endblock %}
+
+
+{% block content %}
+
+    <h1 class="title">Participantes</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Puntos por resultado </th>
+            <th>Puntos por marcador </th>
+            <th>Total de puntos</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for gambler in gambler_list %}
+            <tr>
+                <td><a href="{% url 'gambler-detail' gambler.pk %}">{{ gambler.name }}</a></td>
+                <td>{{ gambler.points_winner }}</td>
+                <td>{{ gambler.points_score }}</td>
+                <td>{{ gambler.total }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

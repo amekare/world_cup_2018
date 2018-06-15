@@ -24,7 +24,7 @@
                     {% endfor %}
                 </td>
 
-            <td>{{ player.team }}</td>
+                <td><a href="{% url 'team-detail' player.team.pk %}">{{ player.team }}</a></td>
             </tr>
         {% endfor %}
         </tbody>

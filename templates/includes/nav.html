@@ -1,9 +1,6 @@
 <nav class="navbar is-transparent">
     <div class="navbar-brand">
-        <a class="navbar-item" href="{% url 'index' %}">
-            <img src="https://5.imimg.com/data5/IJ/JK/MY-11744895/playing-football-500x500.jpg" alt="Fútbol"
-                 width="28" height="28">
-        </a>
+
         <div class="navbar-burger burger" data-target="navbar-menu">
             <span></span>
             <span></span>
@@ -24,14 +21,15 @@
                     <a class="navbar-item" href="{% url 'team-list' %}">
                         Equipos
                     </a>
-                    <a class="navbar-item" href="{% url 'player-list' %}">
-                        Jugadores
-                    </a>
+
                     <a class="navbar-item" href="{% url 'round-list' %}">
                         Resultados
                     </a>
                     <a class="navbar-item" href="{% url 'bet-list' %}">
                         Apuestas
+                    </a>
+                    <a class="navbar-item" href="{% url 'gambler-list' %}">
+                        Participantes
                     </a>
                 </div>
             </div>
@@ -43,4 +41,4 @@
     <script type="text/javascript"
             src="/static/js/menu.js"></script>
     <!-- Yeah, and more js, of course -->
-    {% endblock javascript %}
+{% endblock javascript %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if team.pk %}Actualización{% else %}Nueva{% endif %} apuesta {% endblock %}
+
+{% block content %}
+    {% if bet.pk %}
+        <a class="button is-success" href="{% url 'bet-detail' bet.pk %}">Volver</a>
+        <hr>
+        <h3 class="title">Actualización de la apuesta</h3>
+    {% else %}
+        <a class="button is-success" href="{% url 'bet-list' %}">Volver</a>
+        <hr>
+        <h3 class="title">Crear nueva apuesta</h3>
+    {% endif %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="has-text-centered">
+            <input class="button is-success" type="submit" value="Save">
+        </div>
+    </form>
+{% endblock %}

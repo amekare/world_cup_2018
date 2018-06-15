@@ -10,6 +10,10 @@
             <th>Ronda</th>
             <th>Grupo</th>
             <th>Equipo</th>
+            <th>Jugados</th>
+            <th>Ganados</th>
+            <th>Empates</th>
+            <th>Perdidos</th>
             <th>Puntos</th>
 
         </tr>
@@ -18,9 +22,13 @@
 
         {% for round in round_list %}
             <tr>
-                <td>{{ round.get_round_display }}</td>
+                <td>{{ round.get_stage_display }}</td>
                 <td>{{ round.get_group_display }}</td>
                 <td>{{ round.team }}</td>
+                <td>{{ round.played_matches }}</td>
+                <td>{{ round.won }}</td>
+                <td>{{ round.draw }}</td>
+                <td>{{ round.lose }}</td>
                 <td>{{ round.points }}</td>
             </tr>
         {% endfor %}

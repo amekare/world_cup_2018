@@ -25,5 +25,7 @@ urlpatterns = [
     url(r'^bets/(?P<pk>\d+)/edit$', views.BetUpdateView.as_view(), name='bet-update'),
     url(r'^bets/(?P<pk>\d+)/delete$', views.BetDeleteView.as_view(), name='bet-delete'),
 
+    url(r'^gamblers$', views.GamblerListView.as_view(), name='gambler-list'),
+    url(r'^gamblers/(?P<pk>\d+)$', views.GamblerDetailView.as_view(), name='gambler-detail'),
 
 ]

@@ -2,7 +2,16 @@
 
 {% block title %}Apuestas{% endblock %}
 
+
+
+
 {% block content %}
+
+    {% if user.is_authenticated %}
+    <a class="button is-info is-pulled-right" href="{% url 'bet-create' %}">Nueva apuesta</a>
+    {% else %}
+        <p class="is-pulled-right">Requiere autenticación</p>
+    {% endif %}
     <h1 class="title">Apuestas</h1>
     <table class="table">
         <thead>
@@ -17,7 +26,7 @@
         <tbody>
         {% for bet in bet_list %}
             <tr>
-                <td>{{ bet.source.name }}</td>
+                <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.source.name }}</a></td>
                 <td>{{ bet.team1 }}</td>
                 <td>{{ bet.goals_team1 }}</td>
                 <td>{{ bet.team2 }}</td>
