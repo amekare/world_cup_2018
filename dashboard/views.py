@@ -125,6 +125,9 @@ class BetDeleteView(DeleteView):
 class GamblerListView(ListView):
     model = Gambler
 
+    def get_queryset(self):
+        queryset = super(GamblerListView, self).get_queryset()
+        return queryset.all().exclude(pk=1)
 
 class GamblerDetailView(DetailView):
     model = Gambler

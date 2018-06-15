@@ -1,4 +1,6 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
+
 
 
 class Team(models.Model):
@@ -107,10 +109,12 @@ class Gambler(models.Model):
     points_3er = models.IntegerField(default=0)
     points_final = models.IntegerField(default=0)
 
+    class Meta:
+        ordering = ["name"]
+
     def total(self):
         return self.points_3er + self.points_4vo + self.points_8vo + self.points_final + self.points_score
         +self.points_semi + self.points_winner
-
 
     def __str__(self):
         return self.name
