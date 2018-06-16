@@ -161,7 +161,7 @@ def update_first_round():
     update_scores(stage)
     print("Actualizados: " + str(len(results)))
 
-
+# 1 = 1st stage, 2 = 8th
 def update_scores(stage):
     rounds = Round.objects.filter(stage=stage)
     for r in rounds:
@@ -173,22 +173,24 @@ def update_scores(stage):
 def update_gamblers():
     oficial_results = Bet.objects.filter(source__name='Oficial')
     for oficial in oficial_results:
-        bets = Bet.objects.filter(match=oficial.match)
-        gambler = Gambler.objects.get(name=bet.source.name)
-        for bet in bet:
+        bets = Bet.objects.filter(match=oficial.match, checked=False)
+        for bet in bets:
+            gambler = Gambler.objects.get(name=bet.source.name)
             if oficial.goals_team1 == bet.goals_team1 and oficial.goals_team2 == bet.goals_team2:
                 gambler.points_score += 1
-            if result(oficial) == result(bet):
+            if result(oficial.source.name, oficial.match) == result(bet.source.name, bet.match):
                 gambler.points_result += 1
+            gambler
+            bet.checked = True
+            bet.save()
+    print("Gamblers updated")
 
 
-def result(oficial):
-    if oficial.goals_team1 > result.goals_team2:
+def result(source, match):
+    bet = Bet.objects.get(source__name=source, match=match)
+    if bet.goals_team1 > bet.goals_team2:
         return 'Team 1 won'
-    if oficial.goals_team1 == result.goals_team2:
+    if bet.goals_team1 == bet.goals_team2:
         return 'Draw'
-    if oficial.goals_team1 < result.goals_team2:
+    if bet.goals_team1 < bet.goals_team2:
         return 'Team 2 won'
-
-
-

@@ -22,13 +22,12 @@ SECRET_KEY = 'lng12ra=4tu_%q4374=efkobzt-^&jfj3anioms!m3mt7ykv1q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 import socket
+
 server = socket.gethostname()
 
 DEBUG = True
-if server =='giles-liveconsole3':
+if server == 'giles-liveconsole3':
     DEBUG = False
-
-
 
 ALLOWED_HOSTS = ['amekare.pythonanywhere.com', 'localhost']
 
@@ -42,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dashboard',
-    #'django_extensions',
+    'dashboard.templatetags',
+    # 'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +70,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
+
         },
     },
 ]
@@ -129,6 +131,3 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static/"),
     '/home/amekare/world_cup_2018/static/',
 ]
-
-
-

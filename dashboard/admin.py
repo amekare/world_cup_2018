@@ -27,10 +27,15 @@ class BetAdmin(admin.ModelAdmin):
     search_fields = ('source__name', 'team1__name', 'team2__name')
 
 
+class GamblerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'points_score')
+    search_fields = ('name', '')
+
+
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Position)
-admin.site.register(Gambler)
+admin.site.register(Gambler, GamblerAdmin)
 admin.site.register(Bet, BetAdmin)
 admin.site.register(Round, RoundAdmin)
 admin.site.register(Match, MatchAdmin)

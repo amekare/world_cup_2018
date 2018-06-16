@@ -99,20 +99,23 @@ class Match(models.Model):
 
 class Gambler(models.Model):
     name = models.CharField(max_length=48)
+    # points for winner and draw hits
     points_result = models.IntegerField(default=0)
+    # points for score hits
     points_score = models.IntegerField(default=0)
+    # points for 8th teams
     points_8vo = models.IntegerField(default=0)
+    # points for 4th teams
     points_4vo = models.IntegerField(default=0)
+    # points for semi final teams
     points_semi = models.IntegerField(default=0)
+    # points for 3th teams
     points_3er = models.IntegerField(default=0)
+    # points for final teams
     points_final = models.IntegerField(default=0)
 
     class Meta:
         ordering = ["name"]
-
-    def total(self):
-        return self.points_3er + self.points_4vo + self.points_8vo + self.points_final + self.points_score
-        +self.points_semi + self.points_result
 
     def __str__(self):
         return self.name

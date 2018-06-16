@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
+
 
 {% block title %}Participantes{% endblock %}
 
@@ -21,7 +23,7 @@
                 <td><a href="{% url 'gambler-detail' gambler.pk %}">{{ gambler.name }}</a></td>
                 <td>{{ gambler.points_result }}</td>
                 <td>{{ gambler.points_score }}</td>
-                <td>{{ gambler.total }}</td>
+                <td>{{ value|total_points:gambler.name }}</td>
 
             </tr>
         {% endfor %}
