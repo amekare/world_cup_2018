@@ -99,7 +99,7 @@ class Match(models.Model):
 
 class Gambler(models.Model):
     name = models.CharField(max_length=48)
-    points_winner = models.IntegerField(default=0)
+    points_result = models.IntegerField(default=0)
     points_score = models.IntegerField(default=0)
     points_8vo = models.IntegerField(default=0)
     points_4vo = models.IntegerField(default=0)
@@ -112,7 +112,7 @@ class Gambler(models.Model):
 
     def total(self):
         return self.points_3er + self.points_4vo + self.points_8vo + self.points_final + self.points_score
-        +self.points_semi + self.points_winner
+        +self.points_semi + self.points_result
 
     def __str__(self):
         return self.name

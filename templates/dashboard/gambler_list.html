@@ -19,7 +19,7 @@
         {% for gambler in gambler_list %}
             <tr>
                 <td><a href="{% url 'gambler-detail' gambler.pk %}">{{ gambler.name }}</a></td>
-                <td>{{ gambler.points_winner }}</td>
+                <td>{{ gambler.points_result }}</td>
                 <td>{{ gambler.points_score }}</td>
                 <td>{{ gambler.total }}</td>
 
