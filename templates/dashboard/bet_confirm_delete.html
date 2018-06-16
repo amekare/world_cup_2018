@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar apuesta{% endblock %}
+
+{% block content %}
+    <p class="title has-text-centered">¿Está segur@ de eliminar la siguiente apuesta?"<br/> {{ bet.source }} : {{ bet.match }}"?</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <div class="has-text-centered">
+            <input type="submit" class="button is-danger" value="Sí">
+            <a href="{% url 'bet-detail' bet.pk %}" class="button is-dark">No</a>
+        </div>
+    </form>
+{% endblock %}
