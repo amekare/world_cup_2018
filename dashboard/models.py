@@ -2,13 +2,15 @@ from django.db import models
 from django.shortcuts import get_object_or_404
 
 
-
 class Team(models.Model):
     name = models.CharField(max_length=32)
     code = models.CharField(max_length=32)
     cups = models.IntegerField(default=0)
     finals = models.IntegerField(default=0)
     semifinals = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -82,7 +84,7 @@ class Bet(models.Model):
     checked = models.BooleanField(default=False)
 
     class Meta:
-        #ordering = ["team1", "team2"]
+        # ordering = ["team1", "team2"]
         ordering = ["source"]
 
     def __str__(self):
