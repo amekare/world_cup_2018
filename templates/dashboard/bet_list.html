@@ -17,6 +17,7 @@
         <thead>
         <tr>
             <th>Nombre</th>
+            <th>Grupo</th>
             <th>Equipo 1</th>
             <th>Goles</th>
             <th>Equipo 2</th>
@@ -27,6 +28,9 @@
         {% for bet in bet_list %}
             <tr>
                 <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.source.name }}</a></td>
+                {% for round in bet.team1.round_set.all %}
+                        <td>{{ round.get_group_display }}</td>
+                    {% endfor %}
                 <td>{{ bet.team1 }}</td>
                 <td>{{ bet.goals_team1 }}</td>
                 <td>{{ bet.team2 }}</td>
