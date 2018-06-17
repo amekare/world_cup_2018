@@ -4,7 +4,7 @@
 {% block title %}{{ gambler.name }}{% endblock %}
 
 {% block content %}
-    <a clbass="button is-success" href="{% url 'gambler-list' %}">Volver</a>
+    <a class="button is-success" href="{% url 'gambler-list' %}">Volver</a>
     <hr>
 
     <div class="level">
@@ -16,24 +16,25 @@
         </div>
         <div class="level-item has-text-centered">
             <div>
-                 <p class="heading">Puntos por resultado</p>
+                <p class="heading">Puntos por resultado</p>
                 <p class="title">{{ gambler.points_result }}</p>
             </div>
         </div>
         <div class="level-item has-text-centered">
             <div>
-                 <p class="heading">Puntos por marcador</p>
+                <p class="heading">Puntos por marcador</p>
                 <p class="title">{{ gambler.points_score }}</p>
             </div>
         </div>
         <div class="level-item has-text-centered">
             <div>
-                 <p class="heading">Total de puntos</p>
+                <p class="heading">Total de puntos</p>
                 <p class="title"> {{ value|total_points:gambler.name }}</p>
             </div>
         </div>
 
     </div>
+    <hr>
     <div class="level">
         <div>
             <p class="title">
@@ -41,7 +42,14 @@
             </p>
         </div>
         <br/>
+
+        {% if user.is_authenticated %}
+            <a class="button is-info is-pulled-right" href="{% url 'bet-create' %}">Nueva apuesta</a>
+        {% else %}
+            <p class="is-pulled-right">Requiere autenticación</p>
+        {% endif %}
     </div>
+    <hr>
     <div class="level">
         <table class="table">
             <thead>

@@ -100,6 +100,10 @@ class RoundDeleteView(DeleteView):
 class BetListView(ListView):
     model = Bet
 
+    def get_queryset(self):
+        queryset = super(BetListView, self).get_queryset()
+        return queryset.filter(source__name="Oficial")
+
 
 class BetDetailView(DetailView):
     model = Bet
