@@ -113,7 +113,7 @@ class BetCreateView(CreateView):
     model = Bet
     fields = ('source', 'match', 'team1', 'team2', 'goals_team1', 'goals_team2')
     #form_class = BetForm
-    success_url = reverse_lazy('bet-list')
+    success_url = reverse_lazy('gambler-list')
 
 
 class BetUpdateView(UpdateView):

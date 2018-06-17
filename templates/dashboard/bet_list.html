@@ -1,17 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}Apuestas{% endblock %}
-
-
-
+{% block title %}Resultados{% endblock %}
 
 {% block content %}
-
-    {% if user.is_authenticated %}
-    <a class="button is-info is-pulled-right" href="{% url 'bet-create' %}">Nueva apuesta</a>
-    {% else %}
-        <p class="is-pulled-right">Requiere autenticación</p>
-    {% endif %}
     <h1 class="title">Resultados oficiales</h1>
     <table class="table">
         <thead>
