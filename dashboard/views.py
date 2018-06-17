@@ -1,8 +1,5 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-from dashboard.forms import BetForm
 from dashboard.models import Team, Player, Round, Bet, Gambler
 
 
@@ -111,7 +108,7 @@ class BetDetailView(DetailView):
 
 class BetCreateView(CreateView):
     model = Bet
-    fields = ('source', 'match', 'team1', 'team2', 'goals_team1', 'goals_team2')
+    fields = ('source', 'match', 'goals_team1', 'goals_team2')
     #form_class = BetForm
     success_url = reverse_lazy('gambler-list')
 

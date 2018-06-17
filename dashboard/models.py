@@ -90,6 +90,12 @@ class Bet(models.Model):
     def __str__(self):
         return self.team1.name + " - " + self.team2.name
 
+    def save(self, *args, **kwargs):
+        if self.team1 == self.team2:
+            self.team1 = self.match.team1
+            self.team2 = self.match.team2
+        super(Bet, self).save(*args, **kwargs)
+
 
 class Match(models.Model):
     team1 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='team1')
