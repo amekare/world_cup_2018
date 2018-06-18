@@ -100,6 +100,7 @@ class Bet(models.Model):
 class Match(models.Model):
     team1 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='team1')
     team2 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='team2')
+    game_date = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.team1.name + " - " + self.team2.name
