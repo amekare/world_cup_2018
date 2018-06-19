@@ -17,7 +17,7 @@ SECRET_KEY = 'lng12ra=4tu_%q4374=efkobzt-^&jfj3anioms!m3mt7ykv1q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = bool(os.environ.get('giles-liveconsole3', True))
+DEBUG = bool(os.environ.get('giles-liveconsole3', False))
 
 if DEBUG:
     ALLOWED_HOSTS = ['localhost']
@@ -117,10 +117,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT= os.path.normpath(os.path.join(BASE_DIR,'../static/'))
 
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "static/"),
-   '/var/www/static/',
 ]
 
 
