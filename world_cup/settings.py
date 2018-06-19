@@ -12,26 +12,17 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'lng12ra=4tu_%q4374=efkobzt-^&jfj3anioms!m3mt7ykv1q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-import socket
 
-server = socket.gethostname()
+DEBUG = bool(os.environ.get('giles-liveconsole3', True))
 
-DEBUG = True
-if server == 'giles-liveconsole3':
-    DEBUG = False
-
-
-
-ALLOWED_HOSTS = ['amekare.pythonanywhere.com', 'localhost']
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost']
+else:
+    ALLOWED_HOSTS = ['amekare.pythonanywhere.com']
 
 # Application definition
 
@@ -126,13 +117,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, "static/"),
-#    '/home/amekare/world_cup_2018/static/',
-#]
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR, "static/"),
+   '/var/www/static/',
+]
 
 
 
