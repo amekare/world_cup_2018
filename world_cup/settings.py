@@ -11,13 +11,17 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import socket
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'lng12ra=4tu_%q4374=efkobzt-^&jfj3anioms!m3mt7ykv1q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = bool(os.environ.get('giles-liveconsole3', False))
+if socket.gethostname() == 'giles-liveconsole3':
+    DEBUG = False
+else:
+    DEBUG = True
 
 if DEBUG:
     ALLOWED_HOSTS = ['localhost']
@@ -63,7 +67,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-
 
         },
     },
@@ -117,11 +120,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT= os.path.normpath(os.path.join(BASE_DIR,'../static/'))
+STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, '../static/'))
 
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, "static/"),
+    os.path.join(BASE_DIR, "static/"),
 ]
-
-
-
