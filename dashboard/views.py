@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from dashboard.models import Team, Player, Round, Bet, Gambler
 
@@ -131,7 +132,7 @@ class GamblerListView(ListView):
 
     def get_queryset(self):
         queryset = super(GamblerListView, self).get_queryset()
-        return queryset.all().exclude(pk=1)
+        return queryset.all().exclude(pk=1).annotate(points=(F('points_score')+(F('points_result')))).order_by('-points')
 
 
 class GamblerDetailView(DetailView):
