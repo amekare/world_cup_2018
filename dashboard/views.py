@@ -164,7 +164,11 @@ def update_first_round():
         result.save()
     stage = '1'
     update_scores(stage)
+    print("first")
     print("Actualizados: " + str(len(results)))
+    print("second")
+    update_gamblers()
+    print("third")
 
 
 # 1 = 1st stage, 2 = 8th
@@ -173,11 +177,12 @@ def update_scores(stage):
     for r in rounds:
         r.points = r.won * 3 + r.draw * 1
         r.save()
-    print(str(len(rounds)))
+
 
 
 def update_gamblers():
     oficial_results = Bet.objects.filter(source__name='Oficial')
+    gamblers_updated = []
     for oficial in oficial_results:
         bets = Bet.objects.filter(match=oficial.match, checked=False)
         for bet in bets:
@@ -186,10 +191,12 @@ def update_gamblers():
                 gambler.points_score += 1
             if result(oficial.source.name, oficial.match) == result(bet.source.name, bet.match):
                 gambler.points_result += 1
+                gamblers_updated.append(gambler)
             gambler.save()
             bet.checked = True
             bet.save()
-    print("Gamblers updated")
+    print("Gamblers updated: " + str(len(gamblers_updated)))
+    print(gamblers_updated)
 
 
 def result(source, match):

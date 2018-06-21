@@ -91,9 +91,8 @@ class Bet(models.Model):
         return self.team1.name + " - " + self.team2.name
 
     def save(self, *args, **kwargs):
-        if self.team1 == self.team2:
-            self.team1 = self.match.team1
-            self.team2 = self.match.team2
+        self.team1 = self.match.team1
+        self.team2 = self.match.team2
         super(Bet, self).save(*args, **kwargs)
 
 
