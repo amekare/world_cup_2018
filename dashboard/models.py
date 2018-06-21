@@ -86,6 +86,7 @@ class Bet(models.Model):
     class Meta:
         # ordering = ["team1", "team2"]
         ordering = ["source"]
+        unique_together = (("source", "match"),)
 
     def __str__(self):
         return self.team1.name + " - " + self.team2.name
