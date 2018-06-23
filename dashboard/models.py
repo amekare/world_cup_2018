@@ -3,6 +3,17 @@ from django.shortcuts import get_object_or_404
 
 
 class Team(models.Model):
+    GROUP_CHOICES = (
+        ('A', 'Grupo A'),
+        ('B', 'Grupo B'),
+        ('C', 'Grupo C'),
+        ('D', 'Grupo D'),
+        ('E', 'Grupo E'),
+        ('F', 'Grupo F'),
+        ('G', 'Grupo G'),
+        ('H', 'Grupo H'),
+    )
+    group = models.CharField(choices=GROUP_CHOICES, max_length=1, null=True, default='A')
     name = models.CharField(max_length=32)
     code = models.CharField(max_length=32)
     cups = models.IntegerField(default=0)
@@ -17,6 +28,7 @@ class Team(models.Model):
 
 
 class Round(models.Model):
+
     GROUP_CHOICES = (
         ('A', 'Grupo A'),
         ('B', 'Grupo B'),
@@ -27,6 +39,7 @@ class Round(models.Model):
         ('G', 'Grupo G'),
         ('H', 'Grupo H'),
     )
+    group = models.CharField(choices=GROUP_CHOICES, max_length=1, null=True)
     ROUND_CHOICES = (
         ('1', 'Primera fase'),
         ('2', 'Octavos'),
@@ -35,7 +48,6 @@ class Round(models.Model):
         ('5', 'Tercer lugar'),
         ('6', 'Finales'),
     )
-    group = models.CharField(choices=GROUP_CHOICES, max_length=1, null=True)
     stage = models.CharField(choices=ROUND_CHOICES, max_length=1, default='1')
     played_matches = models.IntegerField(default=0)
     won = models.IntegerField(default=0)

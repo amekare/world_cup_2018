@@ -3,7 +3,7 @@ from dashboard.models import Team, Player, Position, Bet, Round, Match, Gambler
 
 
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ('name', 'code', 'finals', 'cups')
+    list_display = ('name', 'code', 'finals', 'cups', 'group')
     search_fields = ('name', 'code')
 
 
