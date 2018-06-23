@@ -13,8 +13,8 @@ class PlayerAdmin(admin.ModelAdmin):
 
 
 class RoundAdmin(admin.ModelAdmin):
-    list_display = ('group', 'stage', 'team', 'played_matches', 'won', 'draw', 'lose', 'points')
-    search_fields = ('group', 'team__name')
+    list_display = ('stage', 'team', 'played_matches', 'won', 'draw', 'lose', 'points')
+    search_fields = ('team__name', 'stage')
 
 
 class MatchAdmin(admin.ModelAdmin):

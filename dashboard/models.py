@@ -28,18 +28,6 @@ class Team(models.Model):
 
 
 class Round(models.Model):
-
-    GROUP_CHOICES = (
-        ('A', 'Grupo A'),
-        ('B', 'Grupo B'),
-        ('C', 'Grupo C'),
-        ('D', 'Grupo D'),
-        ('E', 'Grupo E'),
-        ('F', 'Grupo F'),
-        ('G', 'Grupo G'),
-        ('H', 'Grupo H'),
-    )
-    group = models.CharField(choices=GROUP_CHOICES, max_length=1, null=True)
     ROUND_CHOICES = (
         ('1', 'Primera fase'),
         ('2', 'Octavos'),
