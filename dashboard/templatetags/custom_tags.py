@@ -17,8 +17,7 @@ def total_percentage(value, arg):
     gambler = Gambler.objects.get(name=arg)
     oficial_g = Gambler.objects.get(name="Oficial")
     bets = Bet.objects.filter(source=oficial_g)
-    total_points = len(bets) * 2
-    print(total_points)
+    total_points_matches = len(bets) * 2
     points = 0
     for bet in bets:
         b = Bet.objects.get(match=bet.match, source=gambler)
@@ -26,10 +25,7 @@ def total_percentage(value, arg):
             points += 1
         if result_match(bet.source.name, bet.match) == result_match(b.source.name, b.match):
             points += 1
-    print(points)
-    print(str((points * 100)/total_points))
-    return "{0:.2f}".format((points * 100)/total_points)
-
+    return "{0:.2f}".format((points * 100)/total_points_matches)
 
 
 @register.filter()
@@ -42,3 +38,7 @@ def result(value, arg):
     return str(bet.goals_team1) + " - " + str(bet.goals_team2)
 
 
+@register.filter()
+def played_points(value, arg):
+    matches = len(Bet.objects.filter(source__name='Oficial'))
+    return matches * 2
