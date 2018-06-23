@@ -3,11 +3,10 @@
 {% block title %}Resultados{% endblock %}
 
 {% block content %}
-    <h1 class="title">Tabla de posiciones</h1>
-    <table class="table">
+    <h1 class="title">Tabla de posiciones Primera Ronda</h1>
+    <table class="sortable">
         <thead>
         <tr>
-            <th>Ronda</th>
             <th>Grupo</th>
             <th>Equipo</th>
             <th>Jugados</th>
@@ -22,7 +21,6 @@
 
         {% for round in round_list %}
             <tr>
-                <td>{{ round.get_stage_display }}</td>
                 <td>{{ round.team.get_group_display }}</td>
                 <td>{{ round.team }}</td>
                 <td>{{ round.played_matches }}</td>
@@ -35,3 +33,4 @@
         </tbody>
     </table>
 {% endblock %}
+
