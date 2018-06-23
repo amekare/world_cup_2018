@@ -83,6 +83,11 @@ class Bet(models.Model):
     goals_team2 = models.IntegerField(default=0, verbose_name='Goles equipo 2')
     checked = models.BooleanField(default=False)
 
+    @property
+    def sorted_bets_set(self):
+        return self.match.bet_set.order_by('source__name')
+
+
     class Meta:
         # ordering = ["team1", "team2"]
         ordering = ["source"]
