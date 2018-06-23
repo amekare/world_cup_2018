@@ -189,7 +189,7 @@ def update_gamblers():
             gambler = Gambler.objects.get(name=bet.source.name)
             if oficial.goals_team1 == bet.goals_team1 and oficial.goals_team2 == bet.goals_team2:
                 gambler.points_score += 1
-            if result(oficial.source.name, oficial.match) == result(bet.source.name, bet.match):
+            if result_match(oficial.source.name, oficial.match) == result_match(bet.source.name, bet.match):
                 gambler.points_result += 1
                 gamblers_updated.append(gambler)
             gambler.save()
@@ -199,7 +199,7 @@ def update_gamblers():
     print(gamblers_updated)
 
 
-def result(source, match):
+def result_match(source, match):
     bet = Bet.objects.get(source__name=source, match=match)
     if bet.goals_team1 > bet.goals_team2:
         return 'Team 1 won'
