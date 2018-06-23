@@ -20,7 +20,7 @@
             <tr>
                 <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.source.name }}</a></td>
                 {% for round in bet.team1.round_set.all %}
-                        <td>{{ round.get_group_display }}</td>
+                        <td>{{ round.team.get_group_display }}</td>
                     {% endfor %}
                 <td>{{ bet.team1 }}</td>
                 <td>{{ bet.goals_team1 }}</td>

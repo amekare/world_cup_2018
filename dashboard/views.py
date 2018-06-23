@@ -100,7 +100,7 @@ class BetListView(ListView):
 
     def get_queryset(self):
         queryset = super(BetListView, self).get_queryset()
-        return queryset.filter(source__name="Oficial")
+        return queryset.filter(source__name="Oficial").order_by("team1__group")
 
 
 class BetDetailView(DetailView):

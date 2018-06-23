@@ -44,11 +44,11 @@ class Round(models.Model):
     points = models.IntegerField(default=0)
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING)
 
-    def get_group(self):
-        return self.get_group_display()
-
     def __str__(self):
-        return self.get_group_display() + ' - ' + self.team.name
+        return self.get_round_display() + ' - ' + self.team.name
+
+    class Meta:
+        ordering = ["stage", "team__group"]
 
 
 class Position(models.Model):
