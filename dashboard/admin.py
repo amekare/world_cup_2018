@@ -28,8 +28,10 @@ class BetAdmin(admin.ModelAdmin):
 
 
 class GamblerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'points_score')
+    list_display = ('name', 'points_score', 'points_result', 'get_total_points')
     search_fields = ('name', '')
+
+    ordering = ('name','points_score', 'points_result')
 
 
 admin.site.register(Team, TeamAdmin)
