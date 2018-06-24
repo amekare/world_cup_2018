@@ -45,7 +45,7 @@ class Round(models.Model):
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return self.get_round_display() + ' - ' + self.team.name
+        return self.get_stage_display() + ' - ' + self.team.name
 
     class Meta:
         ordering = ["stage", "team__group"]

@@ -1,3 +1,6 @@
+from django.http import HttpResponse
+from django.template import loader
+from django.db.models import Max
 from django.urls import reverse_lazy
 from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -72,6 +75,35 @@ class RoundListView(ListView):
     model = Round
 
 
+def qualified_eight(request):
+    qualified_list = []
+    groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    for group in groups:
+        counter_first_place = 0
+        round_list = Round.objects.filter(stage=1, team__group=group).order_by("-points")
+        max_points = Round.objects.filter(stage=1, team__group=group).aggregate(Max('points'))
+        second_place_points = 0
+        for r in round_list:
+            if r.points != max_points['points__max']:
+                if r.points > second_place_points:
+                    second_place_points = r.points
+        print(group)
+        print(max_points['points__max'])
+        print(second_place_points)
+        for round in round_list:
+            if max_points['points__max'] == round.points:
+                qualified_list.append(round)
+                counter_first_place += 1
+            if round.points == second_place_points:
+                if counter_first_place <2:
+                    qualified_list.append(round)
+    template = loader.get_template('dashboard/qualified_oficial.html')
+    context = {
+        'qualified_list': qualified_list,
+    }
+    return HttpResponse(template.render(context, request))
+
+
 class RoundDetailView(DetailView):
     model = Round
 
@@ -110,7 +142,7 @@ class BetDetailView(DetailView):
 class BetCreateView(CreateView):
     model = Bet
     fields = ('source', 'match', 'goals_team1', 'goals_team2')
-    #form_class = BetForm
+    # form_class = BetForm
     success_url = reverse_lazy('gambler-list')
 
 
@@ -132,7 +164,8 @@ class GamblerListView(ListView):
 
     def get_queryset(self):
         queryset = super(GamblerListView, self).get_queryset()
-        return queryset.all().exclude(pk=1).annotate(points=(F('points_score')+(F('points_result')))).order_by('-points')
+        return queryset.all().exclude(pk=1).annotate(points=(F('points_score') + (F('points_result')))).order_by(
+            '-points')
 
 
 class GamblerDetailView(DetailView):
@@ -179,7 +212,6 @@ def update_scores(stage):
         r.save()
 
 
-
 def update_gamblers():
     oficial_results = Bet.objects.filter(source__name='Oficial')
     gamblers_updated = []
@@ -207,3 +239,11 @@ def result_match(source, match):
         return 'Draw'
     if bet.goals_team1 < bet.goals_team2:
         return 'Team 2 won'
+
+
+def qualified_team_oficial(group):
+    teams = Round.objects.filter(team__group=group, stage=1).order_by("-points")
+    first_place = teams[0]
+    second_place = teams[1]
+    print(first_place)
+    print(second_place)

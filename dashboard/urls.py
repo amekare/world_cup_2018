@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^players/(?P<pk>\d+)/delete$', views.PlayerDeleteView.as_view(), name='player-delete'),
 
     url(r'^rounds$', views.RoundListView.as_view(), name='round-list'),
+    url(r'^rounds/eight$', views.qualified_eight, name='qualified-oficial'),
     url(r'^rounds/(?P<pk>\d+)$', views.RoundDetailView.as_view(), name='round-detail'),
     url(r'^rounds/new$', views.RoundCreateView.as_view(), name='round-create'),
     url(r'^rounds/(?P<pk>\d+)/edit$', views.RoundUpdateView.as_view(), name='round-update'),

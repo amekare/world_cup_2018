@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados{% endblock %}
+
+{% block content %}
+    <h1 class="title">Clasificados de la primera ronda</h1>
+
+    <div class="columns is-mobile is-multiline is-centered">
+        {% for qualified in qualified_list %}
+            <div class="column is-narrow">
+                <p class="bd-notification is-primary">
+                    <div class="box text-center">
+                <p class="title is-3">{{ qualified.team.name }}</p>
+            <p class="subtitle is-4">{{ qualified.team.get_group_display }} - {{ qualified.points}} pts</p>
+
+            </div>
+
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
