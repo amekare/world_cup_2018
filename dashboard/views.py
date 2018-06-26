@@ -282,3 +282,40 @@ def update_played_matches():
             if team.played_matches == 3:
                 team.done = True
                 team.save()
+
+
+def qualified_per_gambler():
+    gamblers = Gambler.objects.all().exclude(name="Oficial")
+    for gambler in gamblers:
+        #creation of round per gambler
+        rounds_oficial = Round.objects.filter(source__name="Oficial")
+        for r in rounds_oficial:
+            if r.played_matches == 3:
+                ro = Round()
+                ro.source = gambler
+                ro.stage='1'
+                ro.team = r.team
+                ro.played_matches = 3
+                ro.save()
+                print(ro)
+
+
+
+
+    rounds = Round.objects.filter(stage='1')
+    for r in rounds:
+        team = Team.objects.get(name=r.team.name)
+        # home team
+        bets1 = Bet.objects.filter(source__name='Oficial', team1=team)
+        # away team
+        bets2 = Bet.objects.filter(source__name='Oficial', team2=team)
+        for bet in bets1:
+            r.goals_against += bet.goals_team2
+            r.goals_for += bet.goals_team1
+            r.save()
+        for bet in bets2:
+            r.goals_against += bet.goals_team1
+            r.goals_for += bet.goals_team2
+            r.save()
+        r.goals_difference = r.goals_for - r.goals_against
+        r.save()
