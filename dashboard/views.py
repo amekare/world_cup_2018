@@ -175,6 +175,7 @@ def update_first_round():
     print("second")
     update_gamblers()
     print("third")
+    get_first_round_position()
 
 
 # 1 = 1st stage, 2 = 8th
