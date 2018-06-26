@@ -9,11 +9,11 @@
         {% for qualified in qualified_list %}
             <div class="column is-narrow">
                 <p class="bd-notification is-primary">
-                    <div class="box text-center">
-                <p class="title is-3">{{ qualified.team.name }}</p>
-            <p class="subtitle is-4">{{ qualified.team.get_group_display }} - {{ qualified.points}} pts</p>
-
-            </div>
+                <div class="box text-center">
+                    <p class="title is-3">{{ qualified.team.name }}</p>
+                    <p class="subtitle is-4">{{ qualified.team.get_group_display }} - {{ qualified.points }} pts</p>
+                    <p class="subtitle is-4">GF: {{ qualified.goals_for }} - GD: {{ qualified.goals_difference }}</p>
+                </div>
 
             </div>
         {% endfor %}

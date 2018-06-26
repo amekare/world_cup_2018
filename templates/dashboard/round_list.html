@@ -13,6 +13,9 @@
             <th>Ganados</th>
             <th>Empates</th>
             <th>Perdidos</th>
+            <th>GF</th>
+            <th>GC</th>
+            <th>GD</th>
             <th>Puntos</th>
 
         </tr>
@@ -27,6 +30,9 @@
                 <td>{{ round.won }}</td>
                 <td>{{ round.draw }}</td>
                 <td>{{ round.lose }}</td>
+                <td>{{ round.goals_for }}</td>
+                <td>{{ round.goals_against }}</td>
+                <td>{{ round.goals_difference }}</td>
                 <td>{{ round.points }}</td>
             </tr>
         {% endfor %}

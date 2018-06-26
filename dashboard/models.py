@@ -42,6 +42,12 @@ class Round(models.Model):
     draw = models.IntegerField(default=0)
     lose = models.IntegerField(default=0)
     points = models.IntegerField(default=0)
+    goals_for = models.IntegerField(default=0)
+    goals_against = models.IntegerField(default=0)
+    goals_difference = models.IntegerField(default=0)
+    position = models.CharField(default="", max_length=24)
+    #played all matches
+    done = models.BooleanField(default=False)
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING)
 
     def __str__(self):
@@ -86,7 +92,6 @@ class Bet(models.Model):
     @property
     def sorted_bets_set(self):
         return self.match.bet_set.order_by('source__name')
-
 
     class Meta:
         # ordering = ["team1", "team2"]

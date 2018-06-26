@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.db.models import Max
+from django.db.models import Q
+from operator import itemgetter
+from collections import OrderedDict
 from django.urls import reverse_lazy
 from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -73,35 +75,6 @@ class PlayerDeleteView(DeleteView):
 
 class RoundListView(ListView):
     model = Round
-
-
-def qualified_eight(request):
-    qualified_list = []
-    groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-    for group in groups:
-        counter_first_place = 0
-        round_list = Round.objects.filter(stage=1, team__group=group).order_by("-points")
-        max_points = Round.objects.filter(stage=1, team__group=group).aggregate(Max('points'))
-        second_place_points = 0
-        for r in round_list:
-            if r.points != max_points['points__max']:
-                if r.points > second_place_points:
-                    second_place_points = r.points
-        print(group)
-        print(max_points['points__max'])
-        print(second_place_points)
-        for round in round_list:
-            if max_points['points__max'] == round.points:
-                qualified_list.append(round)
-                counter_first_place += 1
-            if round.points == second_place_points:
-                if counter_first_place <2:
-                    qualified_list.append(round)
-    template = loader.get_template('dashboard/qualified_oficial.html')
-    context = {
-        'qualified_list': qualified_list,
-    }
-    return HttpResponse(template.render(context, request))
 
 
 class RoundDetailView(DetailView):
@@ -241,9 +214,65 @@ def result_match(source, match):
         return 'Team 2 won'
 
 
-def qualified_team_oficial(group):
-    teams = Round.objects.filter(team__group=group, stage=1).order_by("-points")
-    first_place = teams[0]
-    second_place = teams[1]
-    print(first_place)
-    print(second_place)
+def update_goals_first_stage():
+    rounds = Round.objects.filter(stage='1')
+    for r in rounds:
+        team = Team.objects.get(name=r.team.name)
+        #home team
+        bets1 = Bet.objects.filter(source__name='Oficial', team1=team)
+        #away team
+        bets2 = Bet.objects.filter(source__name='Oficial', team2=team)
+        for bet in bets1:
+            r.goals_against += bet.goals_team2
+            r.goals_for += bet.goals_team1
+            r.save()
+        for bet in bets2:
+            r.goals_against += bet.goals_team1
+            r.goals_for += bet.goals_team2
+            r.save()
+        r.goals_difference = r.goals_for - r.goals_against
+        r.save()
+
+
+def qualified_eight(request):
+    qualified_list = Round.objects.filter(Q(position__startswith="Primero") | Q(position__startswith="Segundo")).order_by("team__group", "position")
+    template = loader.get_template('dashboard/qualified_oficial.html')
+    context = {
+        'qualified_list': qualified_list,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def get_first_round_position():
+    groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    for group in groups:
+        rounds = Round.objects.filter(team__group=group, stage=1).order_by("-points")
+        positions = {}
+        for round in rounds:
+            score = round.points * 1000000 + (round.goals_difference + 50) * 1000 + round.goals_for
+            positions[round.team]=score
+        sorted_by_value = OrderedDict(sorted(positions.items(), key=itemgetter(1)))
+        first = list(sorted_by_value.items())[3]
+        second = list(sorted_by_value.items())[2]
+        r = Round.objects.get(team__name=first[0])
+        r1 = Round.objects.get(team__name=second[0])
+        if first[1] > second[1]:
+            r.position = "Primero"
+            r.save()
+            r1.position = "Segundo"
+            r1.save()
+        if first[1] == second[1]:
+            r.position = "Primero"
+            r.save()
+            r1.position = "Primero"
+            r1.save()
+
+
+def update_played_matches():
+    groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    for group in groups:
+        teams = Round.objects.filter(team__group=group, stage=1)
+        for team in teams:
+            if team.played_matches == 3:
+                team.done = True
+                team.save()
