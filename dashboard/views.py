@@ -255,13 +255,18 @@ def get_first_round_position():
         sorted_by_value = OrderedDict(sorted(positions.items(), key=itemgetter(1)))
         first = list(sorted_by_value.items())[3]
         second = list(sorted_by_value.items())[2]
+        third = list(sorted_by_value.items())[1]
         r = Round.objects.get(team__name=first[0])
         r1 = Round.objects.get(team__name=second[0])
+        r2 = Round.objects.get(team__name=third[0])
         if first[1] > second[1]:
             r.position = "Primero"
             r.save()
             r1.position = "Segundo"
             r1.save()
+            if second[1] == third[1]:
+                r2.position = "Segundo"
+                r2.save()
         if first[1] == second[1]:
             r.position = "Primero"
             r.save()
