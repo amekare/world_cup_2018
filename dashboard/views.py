@@ -76,6 +76,10 @@ class PlayerDeleteView(DeleteView):
 class RoundListView(ListView):
     model = Round
 
+    def get_queryset(self):
+        queryset = super(RoundListView, self).get_queryset()
+        return queryset.filter(source__name="Oficial").order_by("team__group")
+
 
 class RoundDetailView(DetailView):
     model = Round
@@ -294,13 +298,13 @@ def update_played_matches():
                 team.save()
 
 
-#set original rounds with Oficial source before running this
+# set original rounds with Oficial source before running this
 def qualified_per_gambler():
     gamblers = Gambler.objects.all().exclude(name="Oficial")
     for gambler in gamblers:
         print(gambler)
-        #creation of round per gambler
-        #get rounds from oficial and stage 1
+        # creation of round per gambler
+        # get rounds from oficial and stage 1
         rounds_oficial = Round.objects.filter(source__name="Oficial", stage="1")
         for r in rounds_oficial:
             if r.played_matches == 3:
