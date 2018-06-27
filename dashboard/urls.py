@@ -15,6 +15,7 @@ urlpatterns = [
 
     url(r'^rounds$', views.RoundListView.as_view(), name='round-list'),
     url(r'^rounds/eight$', views.qualified_eight, name='qualified-oficial'),
+    url(r'^rounds/eight_gambler$', views.qualified_first_round_gamblers, name='qualified-gamblers'),
     url(r'^rounds/(?P<pk>\d+)$', views.RoundDetailView.as_view(), name='round-detail'),
     url(r'^rounds/new$', views.RoundCreateView.as_view(), name='round-create'),
     url(r'^rounds/(?P<pk>\d+)/edit$', views.RoundUpdateView.as_view(), name='round-update'),
@@ -28,5 +29,6 @@ urlpatterns = [
 
     url(r'^gamblers$', views.GamblerListView.as_view(), name='gambler-list'),
     url(r'^gamblers/(?P<pk>\d+)$', views.GamblerDetailView.as_view(), name='gambler-detail'),
+    url(r'^gamblers/(?P<pk>\d+)/qualified$', views.qualified_gambler, name='gambler-qualified'),
 
 ]

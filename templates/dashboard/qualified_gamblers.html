@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados{% endblock %}
+
+{% block content %}
+    <h1 class="title">Clasificados por participantes</h1>
+
+    <table class="sortable">
+        <thead>
+        <tr>
+            <th>Participante</th>
+            <th>Grupo</th>
+            <th>Equipo</th>
+            <th>Jugados</th>
+            <th>GF</th>
+            <th>GC</th>
+            <th>GD</th>
+            <th>Puntos</th>
+            <th>Lugar</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for qualified in qualified_list %}
+            <tr>
+                <td>{{ qualified.source }}</td>
+                <td>{{ qualified.team.get_group_display }}</td>
+                <td>{{ qualified.team.name }}</td>
+                <td>{{ qualified.played_matches }}</td>
+                <td>{{ qualified.goals_for }}</td>
+                <td>{{ qualified.goals_against }}</td>
+                <td>{{ qualified.goals_difference }}</td>
+                <td>{{ qualified.points }}</td>
+                <td>{{ qualified.position }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+

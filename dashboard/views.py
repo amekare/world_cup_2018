@@ -223,9 +223,9 @@ def update_goals_first_stage():
     rounds = Round.objects.filter(stage='1')
     for r in rounds:
         team = Team.objects.get(name=r.team.name)
-        #home team
+        # home team
         bets1 = Bet.objects.filter(source__name='Oficial', team1=team)
-        #away team
+        # away team
         bets2 = Bet.objects.filter(source__name='Oficial', team2=team)
         for bet in bets1:
             r.goals_against += bet.goals_team2
@@ -240,14 +240,30 @@ def update_goals_first_stage():
 
 
 def qualified_eight(request):
-    qualified_list = Round.objects.filter(Q(position__startswith="Primero") | Q(position__startswith="Segundo")).order_by("team__group", "position")
+    qualified_list = Round.objects.filter(
+        Q(position__startswith="Primero", source__name__startswith="OFicial") | Q(position__startswith="Segundo",
+                                                                                  source__name__startswith="OFicial")).order_by(
+        "team__group", "position")
     template = loader.get_template('dashboard/qualified_oficial.html')
     context = {
         'qualified_list': qualified_list,
     }
     return HttpResponse(template.render(context, request))
 
-#update oficial rounds
+
+def qualified_first_round_gamblers(request):
+    qualified_list = Round.objects.filter(
+        Q(position__startswith="Primero") | Q(position__startswith="Segundo")).order_by("source__name", "team__group",
+                                                                                        "position")
+    template = loader.get_template('dashboard/qualified_gamblers.html')
+    print(len(qualified_list))
+    context = {
+        'qualified_list': qualified_list,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+# update oficial rounds
 def get_first_round_position():
     groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     for group in groups:
@@ -255,7 +271,7 @@ def get_first_round_position():
         positions = {}
         for round in rounds:
             score = round.points * 1000000 + (round.goals_difference + 50) * 1000 + round.goals_for
-            positions[round.team]=score
+            positions[round.team] = score
         sorted_by_value = OrderedDict(sorted(positions.items(), key=itemgetter(1)))
         first = list(sorted_by_value.items())[3]
         second = list(sorted_by_value.items())[2]
@@ -274,17 +290,25 @@ def get_first_round_position():
                 r2.position = "Segundo"
                 r2.save()
             else:
-                r2.position = ""
+                r2.position = "Tercero"
                 r2.save()
+                if third[1] == fourth[1]:
+                    r3.position = "Tercero"
+                    r3.save()
+                else:
+                    r3.position = "Cuarto"
+                    r3.save()
         if first[1] == second[1]:
             r.position = "Primero"
             r.save()
             r1.position = "Primero"
             r1.save()
-            r2.position = ""
+            r2.position = "Segundo"
             r2.save()
+            r3.position = "Tercero"
+            r3.save()
 
-        r3.position = ""
+        r3.position = "Cuarto"
         r3.save()
 
 
@@ -316,7 +340,6 @@ def qualified_per_gambler():
                     ro.played_matches = 3
                     ro.stage = '1'
                     ro.team = r.team
-                    ro.played_matches = 3
                     ro.save()
         rounds = Round.objects.filter(stage='1', source=gambler)
         for r in rounds:
@@ -358,7 +381,69 @@ def update_first_round_oficial():
     g = Gambler.objects.get(name="Oficial")
     rounds = Round.objects.all()
     for r in rounds:
-       r.source = g
-       r.save()
+        r.source = g
+        r.save()
 
 
+# update oficial rounds
+def first_round_position_gamblers():
+    groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    gamblers = Gambler.objects.all().exclude(name='Oficial')
+    for gambler in gamblers:
+        for group in groups:
+            rounds = Round.objects.filter(source=gambler, stage=1, team__group=group).order_by("-points")
+            positions = {}
+            if len(rounds) == 4:
+                for round in rounds:
+                    score = round.points * 1000000 + (round.goals_difference + 50) * 1000 + round.goals_for
+                    positions[round.team] = score
+                sorted_by_value = OrderedDict(sorted(positions.items(), key=itemgetter(1)))
+
+                first = list(sorted_by_value.items())[3]
+                second = list(sorted_by_value.items())[2]
+                third = list(sorted_by_value.items())[1]
+                fourth = list(sorted_by_value.items())[0]
+                r = Round.objects.get(team__name=first[0], source=gambler, stage=1)
+                r1 = Round.objects.get(team__name=second[0], source=gambler, stage=1)
+                r2 = Round.objects.get(team__name=third[0], source=gambler, stage=1)
+                r3 = Round.objects.get(team__name=fourth[0], source=gambler, stage=1)
+                if first[1] > second[1]:
+                    r.position = "Primero"
+                    r.save()
+                    r1.position = "Segundo"
+                    r1.save()
+                    if second[1] == third[1]:
+                        r2.position = "Segundo"
+                        r2.save()
+                    else:
+                        r2.position = "Tercero"
+                        r2.save()
+                        if third[1] == fourth[1]:
+                            r3.position = "Tercero"
+                            r3.save()
+                        else:
+                            r3.position = "Cuarto"
+                            r3.save()
+                if first[1] == second[1]:
+                    r.position = "Primero"
+                    r.save()
+                    r1.position = "Primero"
+                    r1.save()
+                    r2.position = "Segundo"
+                    r2.save()
+                    r3.position = "Tercero"
+                    r3.save()
+
+
+def qualified_gambler(request, pk):
+    gambler = Gambler.objects.get(pk=pk)
+    qualified_list = Round.objects.filter(
+        Q(position__startswith="Primero", source__name__startswith=gambler.name) | Q(position__startswith="Segundo",
+                                                                                     source__name__startswith=gambler.name)).order_by(
+        "team__group", "position")
+    template = loader.get_template('dashboard/gambler_detail_qualified.html')
+    context = {
+        'qualified_list': qualified_list,
+        'gambler': gambler,
+    }
+    return HttpResponse(template.render(context, request))
