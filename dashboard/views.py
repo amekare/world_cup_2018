@@ -243,7 +243,7 @@ def qualified_eight(request):
     }
     return HttpResponse(template.render(context, request))
 
-
+#update oficial rounds
 def get_first_round_position():
     groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     for group in groups:
@@ -257,10 +257,10 @@ def get_first_round_position():
         second = list(sorted_by_value.items())[2]
         third = list(sorted_by_value.items())[1]
         fourth = list(sorted_by_value.items())[0]
-        r = Round.objects.get(team__name=first[0])
-        r1 = Round.objects.get(team__name=second[0])
-        r2 = Round.objects.get(team__name=third[0])
-        r3 = Round.objects.get(team__name=fourth[0])
+        r = Round.objects.get(team__name=first[0], source__name='Oficial', stage=1)
+        r1 = Round.objects.get(team__name=second[0], source__name='Oficial', stage=1)
+        r2 = Round.objects.get(team__name=third[0], source__name='Oficial', stage=1)
+        r3 = Round.objects.get(team__name=fourth[0], source__name='Oficial', stage=1)
         if first[1] > second[1]:
             r.position = "Primero"
             r.save()
