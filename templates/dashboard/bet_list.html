@@ -4,7 +4,7 @@
 {% block title %}Resultados{% endblock %}
 
 {% block content %}
-    <h1 class="title">Resultados oficiales</h1>
+    <h1 class="title">Resultados oficiales primera ronda</h1>
     {% if bet_list %}
         <h4 class="title">Total de partidos: {{ bet_list|length }} / Total de puntos: {{ value|played_points:bet_list }} </h4>
     {% endif %}
@@ -21,9 +21,7 @@
         <tbody>
         {% for bet in bet_list %}
             <tr>
-                {% for round in bet.team1.round_set.all %}
-                    <td><a href="{% url 'bet-detail' bet.pk %}">{{ round.team.get_group_display }}</a></td>
-                    {% endfor %}
+                <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.team1.get_group_display }}</a></td>
                 <td>{{ bet.team1 }}</td>
                 <td>{{ bet.goals_team1 }}</td>
                 <td>{{ bet.team2 }}</td>
