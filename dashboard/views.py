@@ -284,38 +284,67 @@ def update_played_matches():
                 team.save()
 
 
+#set original rounds with Oficial source before running this
 def qualified_per_gambler():
     gamblers = Gambler.objects.all().exclude(name="Oficial")
     for gambler in gamblers:
+        print(gambler)
         #creation of round per gambler
-        rounds_oficial = Round.objects.filter(source__name="Oficial")
+        #get rounds from oficial and stage 1
+        rounds_oficial = Round.objects.filter(source__name="Oficial", stage="1")
         for r in rounds_oficial:
             if r.played_matches == 3:
-                ro = Round()
-                ro.source = gambler
-                ro.stage='1'
-                ro.team = r.team
-                ro.played_matches = 3
-                ro.save()
-                print(ro)
+                try:
+                    exist = Round.objects.get(stage=1, source=gambler, team=r.team)
+                except Round.DoesNotExist:
+                    ro = Round()
+                    ro.source = gambler
+                    ro.played_matches = 3
+                    ro.stage = '1'
+                    ro.team = r.team
+                    ro.played_matches = 3
+                    ro.save()
+        rounds = Round.objects.filter(stage='1', source=gambler)
+        for r in rounds:
+            if not r.done:
+                team = Team.objects.get(name=r.team.name)
+                # home team
+                bets1 = Bet.objects.filter(source=gambler, team1=team)
+                # away team
+                bets2 = Bet.objects.filter(source=gambler, team2=team)
+
+                for bet in bets1:
+                    r.goals_against += bet.goals_team2
+                    r.goals_for += bet.goals_team1
+                    if bet.goals_team1 > bet.goals_team2:
+                        r.won += 1
+                    if bet.goals_team1 == bet.goals_team2:
+                        r.draw += 1
+                    if bet.goals_team1 < bet.goals_team2:
+                        r.lose += 1
+                    r.save()
+                for bet in bets2:
+                    r.goals_against += bet.goals_team1
+                    r.goals_for += bet.goals_team2
+                    if bet.goals_team1 > bet.goals_team2:
+                        r.lose += 1
+                    if bet.goals_team1 == bet.goals_team2:
+                        r.draw += 1
+                    if bet.goals_team1 < bet.goals_team2:
+                        r.won += 1
+                    r.save()
+                r.goals_difference = r.goals_for - r.goals_against
+                r.done = True
+                r.save()
+                print(r)
+    update_scores(1)
 
 
-
-
-    rounds = Round.objects.filter(stage='1')
+def update_first_round_oficial():
+    g = Gambler.objects.get(name="Oficial")
+    rounds = Round.objects.all()
     for r in rounds:
-        team = Team.objects.get(name=r.team.name)
-        # home team
-        bets1 = Bet.objects.filter(source__name='Oficial', team1=team)
-        # away team
-        bets2 = Bet.objects.filter(source__name='Oficial', team2=team)
-        for bet in bets1:
-            r.goals_against += bet.goals_team2
-            r.goals_for += bet.goals_team1
-            r.save()
-        for bet in bets2:
-            r.goals_against += bet.goals_team1
-            r.goals_for += bet.goals_team2
-            r.save()
-        r.goals_difference = r.goals_for - r.goals_against
-        r.save()
+       r.source = g
+       r.save()
+
+
