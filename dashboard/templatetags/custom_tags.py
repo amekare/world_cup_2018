@@ -1,4 +1,4 @@
-from dashboard.models import Gambler, Bet
+from dashboard.models import Gambler, Bet, Round
 from dashboard.views import result_match
 from django import template
 
@@ -42,3 +42,17 @@ def result(value, arg):
 def played_points(value, arg):
     matches = len(Bet.objects.filter(source__name='Oficial'))
     return matches * 2
+
+
+@register.simple_tag(name='qualified_matched')
+def qualified_matched_gambler(*args):
+    try:
+        round_player = Round.objects.get(team__name=args[0], source__name=args[1], stage=args[2])
+        round_Oficial = Round.objects.get(team__name=args[0], source__name="Oficial", stage=args[2])
+        if round_Oficial.position == round_player.position:
+            return "Sí"
+        else:
+            return "No"
+    except Round.DoesNotExist:
+        return "No"
+
