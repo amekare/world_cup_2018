@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+{% block title %}{{ gambler.name }}{% endblock %}
+
+{% block content %}
+    <a class="button is-success" href="{% url 'gambler-detail' gambler.pk %}">Volver</a>
+    <hr>
+
+    <div class="level">
+        <div class="level-item has-text-centered">
+            <div>
+                <div>
+            <p class="title">
+                Clasificados de {{ gambler.name }} <br/>
+                Primera Ronda
+            </p>
+        </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="level">
+        <table class="sortable">
+            <thead>
+            <tr>
+                <th>Grupo</th>
+                <th>Equipo</th>
+                <th>Jugados</th>
+                <th>GF</th>
+                <th>GC</th>
+                <th>GD</th>
+                <th>Puntos</th>
+                <th>Lugar</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for qualified in qualified_list %}
+                <tr>
+                    <td>{{ qualified.team.get_group_display }}</td>
+                    <td>{{ qualified.team }}</td>
+                    <td>{{ qualified.played_matches }}</td>
+                    <td>{{ qualified.goals_for }}</td>
+                    <td>{{ qualified.goals_against }}</td>
+                    <td>{{ qualified.goals_difference }}</td>
+                    <td>{{ qualified.points }}</td>
+                    <td>{{ qualified.position }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+    <hr>
+    <hr>
+
+{% endblock %}

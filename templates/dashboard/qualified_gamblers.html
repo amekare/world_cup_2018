@@ -3,21 +3,40 @@
 {% block title %}Resultados{% endblock %}
 
 {% block content %}
-    <h1 class="title">Clasificados de la primera ronda</h1>
+    <h1 class="title">Clasificados por participantes</h1>
 
-    <div class="columns is-mobile is-multiline is-centered">
+    <table class="sortable">
+        <thead>
+        <tr>
+            <th>Participante</th>
+            <th>Grupo</th>
+            <th>Equipo</th>
+            <th>Jugados</th>
+            <th>GF</th>
+            <th>GC</th>
+            <th>GD</th>
+            <th>Puntos</th>
+            <th>Lugar</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
         {% for qualified in qualified_list %}
-            <div class="column is-narrow">
-                <p class="bd-notification is-primary">
-                <div class="box text-center">
-                    <p class="title is-3">{{ qualified.team.name }}</p>
-                    <p class="subtitle is-4">{{ qualified.team.get_group_display }} - {{ qualified.points }} pts</p>
-                    <p class="subtitle is-4">GF: {{ qualified.goals_for }} - GD: {{ qualified.goals_difference }}</p>
-                </div>
-
-            </div>
+            <tr>
+                <td>{{ qualified.source }}</td>
+                <td>{{ qualified.team.get_group_display }}</td>
+                <td>{{ qualified.team.name }}</td>
+                <td>{{ qualified.played_matches }}</td>
+                <td>{{ qualified.goals_for }}</td>
+                <td>{{ qualified.goals_against }}</td>
+                <td>{{ qualified.goals_difference }}</td>
+                <td>{{ qualified.points }}</td>
+                <td>{{ qualified.position }}</td>
+            </tr>
         {% endfor %}
-    </div>
+        </tbody>
+    </table>
 
 {% endblock %}
 
