@@ -247,7 +247,7 @@ def qualified_eight(request):
 def get_first_round_position():
     groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     for group in groups:
-        rounds = Round.objects.filter(team__group=group, stage=1).order_by("-points")
+        rounds = Round.objects.filter(team__group=group, stage=1, source__name='Oficial').order_by("-points")
         positions = {}
         for round in rounds:
             score = round.points * 1000000 + (round.goals_difference + 50) * 1000 + round.goals_for
