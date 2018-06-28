@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 
 {% block title %}Resultados{% endblock %}
 
@@ -17,7 +18,7 @@
             <th>GD</th>
             <th>Puntos</th>
             <th>Lugar</th>
-
+            <th>Acertado con el oficial</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                 <td>{{ qualified.goals_difference }}</td>
                 <td>{{ qualified.points }}</td>
                 <td>{{ qualified.position }}</td>
+                <td>{% qualified_matched qualified.team.name qualified.source.name qualified.stage %}</td>
             </tr>
         {% endfor %}
         </tbody>

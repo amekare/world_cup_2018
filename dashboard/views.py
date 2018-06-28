@@ -6,7 +6,7 @@ from collections import OrderedDict
 from django.urls import reverse_lazy
 from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from dashboard.models import Team, Player, Round, Bet, Gambler
+from dashboard.models import Team, Player, Round, Bet, Gambler, Match
 
 
 class TeamListView(ListView):
@@ -398,7 +398,6 @@ def first_round_position_gamblers():
                     score = round.points * 1000000 + (round.goals_difference + 50) * 1000 + round.goals_for
                     positions[round.team] = score
                 sorted_by_value = OrderedDict(sorted(positions.items(), key=itemgetter(1)))
-
                 first = list(sorted_by_value.items())[3]
                 second = list(sorted_by_value.items())[2]
                 third = list(sorted_by_value.items())[1]
@@ -407,32 +406,43 @@ def first_round_position_gamblers():
                 r1 = Round.objects.get(team__name=second[0], source=gambler, stage=1)
                 r2 = Round.objects.get(team__name=third[0], source=gambler, stage=1)
                 r3 = Round.objects.get(team__name=fourth[0], source=gambler, stage=1)
-                if first[1] > second[1]:
-                    r.position = "Primero"
-                    r.save()
-                    r1.position = "Segundo"
-                    r1.save()
-                    if second[1] == third[1]:
-                        r2.position = "Segundo"
-                        r2.save()
-                    else:
-                        r2.position = "Tercero"
-                        r2.save()
-                        if third[1] == fourth[1]:
-                            r3.position = "Tercero"
-                            r3.save()
+                if not r.qualified_revision:
+                    if first[1] > second[1]:
+                        r.position = "Primero"
+                        r.qualified_revision = True
+                        r.save()
+                        r1.position = "Segundo"
+                        r1.qualified_revision = True
+                        r1.save()
+                        if second[1] == third[1]:
+                            r2.position = "Segundo"
+                            r2.qualified_revision = True
+                            r2.save()
                         else:
-                            r3.position = "Cuarto"
-                            r3.save()
-                if first[1] == second[1]:
-                    r.position = "Primero"
-                    r.save()
-                    r1.position = "Primero"
-                    r1.save()
-                    r2.position = "Segundo"
-                    r2.save()
-                    r3.position = "Tercero"
-                    r3.save()
+                            r2.position = "Tercero"
+                            r2.qualified_revision = True
+                            r2.save()
+                            if third[1] == fourth[1]:
+                                r3.position = "Tercero"
+                                r3.qualified_revision = True
+                                r3.save()
+                            else:
+                                r3.position = "Cuarto"
+                                r3.qualified_revision = True
+                                r3.save()
+                    if first[1] == second[1]:
+                        r.position = "Primero"
+                        r.qualified_revision = True
+                        r.save()
+                        r1.position = "Primero"
+                        r1.qualified_revision = True
+                        r1.save()
+                        r2.position = "Tercero"
+                        r2.qualified_revision = True
+                        r2.save()
+                        r3.position = "Cuarto"
+                        r3.qualified_revision = True
+                        r3.save()
 
 
 def qualified_gambler(request, pk):
@@ -447,3 +457,38 @@ def qualified_gambler(request, pk):
         'gambler': gambler,
     }
     return HttpResponse(template.render(context, request))
+
+
+def matches_knockout_phase():
+    matches_ready = {}
+    matches = Match.objects.filter(stage=2)
+    gamblers = Gambler.objects.all().exclude(name="Oficial")
+    for match in matches:
+    #     print("OFicial")
+    #     print(match)
+        match_list = []
+        team1 = match.team1
+        team2 = match.team2
+        r1 = Round.objects.get(source__name="Oficial", stage=1, team=team1)
+        r2 = Round.objects.get(source__name="Oficial", stage=1, team=team2)
+        # print(r1)
+        # print(r1.position)
+        # print(r2)
+        # print(r2.position)
+        for gambler in gamblers:
+            rg1 = Round.objects.get(source=gambler, stage=1, team=team1)
+            rg2 = Round.objects.get(source=gambler, stage=1, team=team2)
+            # print(rg1)
+            # print(rg1.position)
+            # print(rg2)
+            # print(rg2.position)
+            if r1.position == rg1.position:
+                if r2.position == rg2.position:
+                    match_list.append(gambler.name)
+        matches_ready[match] = match_list
+
+    for k, v in matches_ready.items():
+        print(k, v)
+
+
+

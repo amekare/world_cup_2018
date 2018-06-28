@@ -47,8 +47,9 @@ class Round(models.Model):
     goals_difference = models.IntegerField(default=0)
     position = models.CharField(default="", max_length=24)
     source = models.ForeignKey('Gambler', on_delete=models.DO_NOTHING, null=True)
-    #played all matches
+    # played all matches
     done = models.BooleanField(default=False)
+    qualified_revision = models.BooleanField(default=False)
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING)
 
     def __str__(self):
@@ -109,9 +110,18 @@ class Bet(models.Model):
 
 
 class Match(models.Model):
+    STAGE_CHOICES = (
+        ('1', 'Primera fase'),
+        ('2', 'Octavos'),
+        ('3', 'Cuarto'),
+        ('4', 'Semifinales'),
+        ('5', 'Tercer lugar'),
+        ('6', 'Finales'),
+    )
     team1 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='team1')
     team2 = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='team2')
     game_date = models.DateTimeField(null=True)
+    stage = models.CharField(choices=STAGE_CHOICES, max_length=1, default='1')
 
     def __str__(self):
         return self.team1.name + " - " + self.team2.name
