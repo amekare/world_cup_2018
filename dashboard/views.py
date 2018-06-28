@@ -168,6 +168,12 @@ def update_first_round():
         if result.goals_team1 < result.goals_team2:
             round1.lose += 1
             round2.won += 1
+        round1.goals_for += result.goals_team1
+        round1.goals_against += result.goals_team2
+        round1.goals_difference = round1.goals_for - round1.goals_against
+        round2.goals_for += result.goals_team2
+        round2.goals_against += result.goals_team1
+        round2.goals_difference = round2.goals_for - round2.goals_against
         round1.save()
         round2.save()
         result.checked = True
