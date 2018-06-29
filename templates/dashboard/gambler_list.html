@@ -15,6 +15,7 @@
             <th>Nombre</th>
             <th>Puntos por resultado </th>
             <th>Puntos por marcador </th>
+            <th>Equipos a octavos </th>
             <th>Total de puntos</th>
         </tr>
         </thead>
@@ -24,6 +25,7 @@
                 <td><a href="{% url 'gambler-detail' gambler.pk %}">{{ gambler.name }}</a></td>
                 <td>{{ gambler.points_result }}</td>
                 <td>{{ gambler.points_score }}</td>
+                <td>{{ gambler.points_8vo }}</td>
                 <td>{{ value|total_points:gambler.name }}</td>
 
             </tr>
