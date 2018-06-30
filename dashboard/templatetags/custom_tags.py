@@ -20,11 +20,15 @@ def total_percentage(value, arg):
     total_points_matches = len(bets) * 2
     points = 0
     for bet in bets:
-        b = Bet.objects.get(match=bet.match, source=gambler)
-        if bet.goals_team1 == b.goals_team1 and bet.goals_team2 == b.goals_team2:
-            points += 1
-        if result_match(bet.source.name, bet.match) == result_match(b.source.name, b.match):
-            points += 1
+        try:
+            b = Bet.objects.get(match=bet.match, source=gambler)
+            if bet.goals_team1 == b.goals_team1 and bet.goals_team2 == b.goals_team2:
+                points += 1
+            if result_match(bet.source.name, bet.match) == result_match(b.source.name, b.match):
+                points += 1
+        except Bet.DoesNotExist:
+            print(gambler)
+            print(str(bet) + " Sin partido")
     return "{0:.2f}".format((points * 100)/total_points_matches)
 
 
