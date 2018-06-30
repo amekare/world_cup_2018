@@ -89,6 +89,7 @@ class Bet(models.Model):
                               verbose_name='Equipo 2')
     goals_team1 = models.IntegerField(default=0, verbose_name='Goles equipo 1')
     goals_team2 = models.IntegerField(default=0, verbose_name='Goles equipo 2')
+    type = models.CharField(default="Original", max_length=32, null=True)
     checked = models.BooleanField(default=False)
 
     @property
@@ -98,10 +99,10 @@ class Bet(models.Model):
     class Meta:
         # ordering = ["team1", "team2"]
         ordering = ["source"]
-        unique_together = (("source", "match"),)
+        unique_together = (("source", "match", "type"),)
 
     def __str__(self):
-        return self.team1.name + " - " + self.team2.name
+        return self.source.name + ": " + self.team1.name + " - " + self.team2.name
 
     def save(self, *args, **kwargs):
         self.team1 = self.match.team1

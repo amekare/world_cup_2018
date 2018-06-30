@@ -24,8 +24,8 @@ class MatchAdmin(admin.ModelAdmin):
 
 
 class BetAdmin(admin.ModelAdmin):
-    list_display = ('source', 'match', 'team1', 'team2', 'goals_team1', 'goals_team2', 'checked')
-    search_fields = ('source__name', 'team1__name', 'team2__name', 'match__stage')
+    list_display = ('source', 'match', 'team1', 'team2', 'goals_team1', 'goals_team2', 'checked', 'type')
+    search_fields = ('source__name', 'team1__name', 'team2__name', 'match__stage', 'type')
 
 
 class GamblerAdmin(admin.ModelAdmin):
