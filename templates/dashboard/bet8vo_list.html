@@ -11,7 +11,6 @@
     <table class="sortable">
         <thead>
         <tr>
-            <th>Grupo</th>
             <th>Equipo 1</th>
             <th>Goles</th>
             <th>Equipo 2</th>
@@ -21,8 +20,7 @@
         <tbody>
         {% for bet in bet_list %}
             <tr>
-                <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.team1.get_group_display }}</a></td>
-                <td>{{ bet.team1 }}</td>
+                <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.team1 }}</a></td>
                 <td>{{ bet.goals_team1 }}</td>
                 <td>{{ bet.team2 }}</td>
                 <td>{{ bet.goals_team2 }}</td>
