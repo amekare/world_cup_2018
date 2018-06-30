@@ -45,7 +45,7 @@ class Round(models.Model):
     goals_for = models.IntegerField(default=0)
     goals_against = models.IntegerField(default=0)
     goals_difference = models.IntegerField(default=0)
-    position = models.CharField(default="", max_length=24)
+    position = models.CharField(default="", max_length=24, null=True)
     source = models.ForeignKey('Gambler', on_delete=models.DO_NOTHING, null=True)
     # played all matches
     done = models.BooleanField(default=False)

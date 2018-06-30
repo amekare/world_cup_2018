@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^players/(?P<pk>\d+)/delete$', views.PlayerDeleteView.as_view(), name='player-delete'),
 
     url(r'^rounds$', views.RoundListView.as_view(), name='round-list'),
+    url(r'^rounds-8vo$', views.Round8voListView.as_view(), name='round-eight-list'),
     url(r'^rounds/eight$', views.qualified_eight, name='qualified-oficial'),
     url(r'^rounds/eight_gambler$', views.qualified_first_round_gamblers, name='qualified-gamblers'),
     url(r'^rounds/(?P<pk>\d+)$', views.RoundDetailView.as_view(), name='round-detail'),
@@ -22,6 +23,7 @@ urlpatterns = [
     url(r'^rounds/(?P<pk>\d+)/delete$', views.RoundDeleteView.as_view(), name='round-delete'),
 
     url(r'^bets$', views.BetListView.as_view(), name='bet-list'),
+    url(r'^bets-8vo$', views.Bet8voListView.as_view(), name='bet-eight-list'),
     url(r'^bets/(?P<pk>\d+)$', views.BetDetailView.as_view(), name='bet-detail'),
     url(r'^bets/new$', views.BetCreateView.as_view(), name='bet-create'),
     url(r'^bets/(?P<pk>\d+)/edit$', views.BetUpdateView.as_view(), name='bet-update'),

@@ -15,7 +15,7 @@ class PlayerAdmin(admin.ModelAdmin):
 class RoundAdmin(admin.ModelAdmin):
     list_display = ('stage', 'team','position', 'source', 'won', 'draw', 'lose', 'points', 'goals_for', 'goals_against', 'goals_difference', 'done')
     search_fields = ('team__name', 'stage', 'source__name')
-    ordering = ("team__group", "-points")
+    ordering = ("team__group", "-points", "stage")
 
 
 class MatchAdmin(admin.ModelAdmin):
@@ -25,7 +25,7 @@ class MatchAdmin(admin.ModelAdmin):
 
 class BetAdmin(admin.ModelAdmin):
     list_display = ('source', 'match', 'team1', 'team2', 'goals_team1', 'goals_team2', 'checked')
-    search_fields = ('source__name', 'team1__name', 'team2__name')
+    search_fields = ('source__name', 'team1__name', 'team2__name', 'match__stage')
 
 
 class GamblerAdmin(admin.ModelAdmin):

@@ -9,5 +9,5 @@ from dashboard.models import Bet
 def scores_updates(sender, **kwargs):
     bet = kwargs['instance']
     if bet.source.name == 'Oficial':
-        update_first_round()
+        update_first_round(bet.match.stage)
 

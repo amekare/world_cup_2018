@@ -78,7 +78,16 @@ class RoundListView(ListView):
 
     def get_queryset(self):
         queryset = super(RoundListView, self).get_queryset()
-        return queryset.filter(source__name="Oficial").order_by("team__group")
+        return queryset.filter(source__name="Oficial", stage="1").order_by("team__group")
+
+
+class Round8voListView(ListView):
+    model = Round
+    template_name = "dashboard/round8vo_list.html"
+
+    def get_queryset(self):
+        queryset = super(Round8voListView, self).get_queryset()
+        return queryset.filter(source__name="Oficial", stage="2").order_by("team__group")
 
 
 class RoundDetailView(DetailView):
@@ -109,7 +118,16 @@ class BetListView(ListView):
 
     def get_queryset(self):
         queryset = super(BetListView, self).get_queryset()
-        return queryset.filter(source__name="Oficial").order_by("team1__group")
+        return queryset.filter(source__name="Oficial", match__stage="1").order_by("team1__group")
+
+
+class Bet8voListView(ListView):
+    model = Bet
+    template_name = "dashboard/bet8vo_list.html"
+
+    def get_queryset(self):
+        queryset = super(Bet8voListView, self).get_queryset()
+        return queryset.filter(source__name="Oficial", match__stage="2")
 
 
 class BetDetailView(DetailView):
@@ -149,14 +167,14 @@ class GamblerDetailView(DetailView):
     model = Gambler
 
 
-def update_first_round():
+def update_first_round(stage):
     source = Gambler.objects.get(name='Oficial')
-    results = Bet.objects.filter(source=source, checked=False)
+    results = Bet.objects.filter(source=source, checked=False, stage=stage)
     print(results)
     for result in results:
         print(result.checked)
-        round1 = Round.objects.get(team=result.team1, stage='1')
-        round2 = Round.objects.get(team=result.team2, stage='1')
+        round1 = Round.objects.get(team=result.team1, stage=stage)
+        round2 = Round.objects.get(team=result.team2, stage=stage)
         round1.played_matches += 1
         round2.played_matches += 1
         if result.goals_team1 > result.goals_team2:

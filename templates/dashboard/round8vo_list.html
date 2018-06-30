@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados{% endblock %}
+
+{% block content %}
+    <h1 class="title">Tabla de posiciones de octavos</h1>
+    <table class="sortable">
+        <thead>
+        <tr>
+            <th>Equipo</th>
+            <th>Jugados</th>
+            <th>Ganados</th>
+            <th>Empates</th>
+            <th>Perdidos</th>
+            <th>GF</th>
+            <th>GC</th>
+            <th>GD</th>
+            <th>Puntos</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for round in round_list %}
+            <tr>
+                <td>{{ round.team }}</td>
+                <td>{{ round.played_matches }}</td>
+                <td>{{ round.won }}</td>
+                <td>{{ round.draw }}</td>
+                <td>{{ round.lose }}</td>
+                <td>{{ round.goals_for }}</td>
+                <td>{{ round.goals_against }}</td>
+                <td>{{ round.goals_difference }}</td>
+                <td>{{ round.points }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
