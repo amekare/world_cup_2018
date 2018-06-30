@@ -391,7 +391,6 @@ def update_played_matches():
                 team.save()
 
 
-# set original rounds with Oficial source before running this
 def qualified_per_gambler():
     gamblers = Gambler.objects.all().exclude(name="Oficial")
     for gambler in gamblers:
