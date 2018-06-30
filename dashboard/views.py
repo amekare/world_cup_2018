@@ -169,12 +169,14 @@ class GamblerDetailView(DetailView):
 
 def update_first_round(stage):
     source = Gambler.objects.get(name='Oficial')
-    results = Bet.objects.filter(source=source, checked=False, stage=stage)
+    results = Bet.objects.filter(source=source, checked=False)
     print(results)
     for result in results:
         print(result.checked)
         round1 = Round.objects.get(team=result.team1, stage=stage)
         round2 = Round.objects.get(team=result.team2, stage=stage)
+        print(round1.source.name)
+        print(round2.source.name)
         round1.played_matches += 1
         round2.played_matches += 1
         if result.goals_team1 > result.goals_team2:
@@ -196,14 +198,11 @@ def update_first_round(stage):
         round2.save()
         result.checked = True
         result.save()
-    stage = '1'
     update_scores(stage)
-    print("first")
     print("Actualizados: " + str(len(results)))
-    print("second")
     update_gamblers()
-    print("third")
-    get_first_round_position()
+    if stage == '1':
+        get_first_round_position()
 
 
 # 1 = 1st stage, 2 = 8th
@@ -513,6 +512,23 @@ def matches_knockout_phase():
 
     for k, v in matches_ready.items():
         print(k, v)
+
+
+# only call after matches for 8vo are in the system
+def load_8vo_stages():
+    matches = Match.objects.filter(stage="2")
+    gambler = Gambler.objects.get(name="Oficial")
+    for match in matches:
+        round = Round()
+        round.stage = "2"
+        round.source = gambler
+        round.team = match.team1
+        round.save()
+        round1 = Round()
+        round1.stage = "2"
+        round1.source = gambler
+        round1.team = match.team2
+        round1.save()
 
 
 

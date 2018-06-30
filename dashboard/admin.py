@@ -20,7 +20,7 @@ class RoundAdmin(admin.ModelAdmin):
 
 class MatchAdmin(admin.ModelAdmin):
     list_display = ('team1', 'team2', 'game_date', 'stage')
-    search_fields = ('team1__name', 'team2__name')
+    search_fields = ('team1__name', 'team2__name', 'stage')
 
 
 class BetAdmin(admin.ModelAdmin):
