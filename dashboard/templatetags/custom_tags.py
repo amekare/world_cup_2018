@@ -52,7 +52,7 @@ def result(value, arg):
 @register.filter()
 def result2(value, arg):
     try:
-        bet = Bet.objects.get(match=arg, source__name="Oficial", type="Consolación")
+        bet = Bet.objects.get(match=arg, source__name="Oficial")
     except Bet.DoesNotExist:
         return 'Sin jugar'
 

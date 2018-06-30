@@ -12,19 +12,19 @@
     <table class="sortable">
         <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Puntos por resultado </th>
-            <th>Puntos por marcador </th>
-            <th>Total de puntos</th>
+            <th style="text-align: center">Nombre</th>
+            <th style="text-align: center">Puntos por resultado </th>
+            <th style="text-align: center">Puntos por marcador </th>
+            <th style="text-align: center">Total de puntos</th>
         </tr>
         </thead>
         <tbody>
         {% for gambler in gambler_list %}
             <tr>
-                <td><a href="{% url 'second-gambler-detail' gambler.pk %}">{{ gambler.name }}</a></td>
-                <td>{{ gambler.points_result2 }}</td>
-                <td>{{ gambler.points_score2 }}</td>
-                <td>{{ value|total_points2:gambler.name }}</td>
+                <td style="text-align: center"><a href="{% url 'second-gambler-detail' gambler.pk %}">{{ gambler.name }}</a></td>
+                <td style="text-align: center">{{ gambler.points_result2 }}</td>
+                <td style="text-align: center">{{ gambler.points_score2 }}</td>
+                <td style="text-align: center">{{ value|total_points2:gambler.name }}</td>
 
             </tr>
         {% endfor %}
