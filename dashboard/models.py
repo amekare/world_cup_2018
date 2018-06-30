@@ -160,9 +160,5 @@ class Gambler(models.Model):
     def get_total_points(self):
         return self.points_semi + self.points_score + self.points_final + self.points_8vo + self.points_4vo + self.points_3er + self.points_result
 
-    #
-    #class Meta:
-    #    ordering = ["-points_result", "-points_score"]
-
     def __str__(self):
         return self.name

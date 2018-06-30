@@ -41,6 +41,7 @@
         <table class="sortable">
             <thead>
             <tr>
+                <th>Quiniela</th>
                 <th>Nombre</th>
                 <th>Marcador</th>
             </tr>
@@ -49,19 +50,11 @@
 
             {% for b in bet.sorted_bets_set %}
                 <tr>
-                {% if b.type == "Original" %}
-                    {% if bet.source.name == 'Oficial' %}
-                        {% if b.source.name != 'Oficial' %}
-                            <td>{{ b.source.name }}</td>
-                            <td>{{ b.goals_team1 }} - {{ b.goals_team2 }} </td>
-                        {% endif %}
 
-                    {% else %}
+                        <td>{{ b.type }}</td>
                         <td>{{ b.source.name }}</td>
                         <td>{{ b.goals_team1 }} - {{ b.goals_team2 }} </td>
 
-                    {% endif %}
-                {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

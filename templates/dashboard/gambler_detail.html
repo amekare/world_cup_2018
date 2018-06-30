@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="level">
-     <div class="level-item has-text-centered">
+        <div class="level-item has-text-centered">
             <div>
                 <p class="heading">Pts por equipos a 8vos</p>
                 <p class="title">{{ gambler.points_8vo }}</p>
@@ -53,10 +53,10 @@
             </div>
         </div>
     </div>
-{#    <hr>#}
-{#    <div class="level">#}
-{#        <p ><a href="{% url 'gambler-qualified' gambler.pk %}">Ver clasificados primera ronda</a></p>#}
-{#    </div>#}
+    {#    <hr>#}
+    {#    <div class="level">#}
+    {#        <p ><a href="{% url 'gambler-qualified' gambler.pk %}">Ver clasificados primera ronda</a></p>#}
+    {#    </div>#}
     <hr>
     <div class="level">
         <div>
@@ -88,18 +88,18 @@
 
             {% for bet in gambler.bet_set.all %}
                 <tr>
-                    {% if bet.type != "Original" %}
+                    {% if bet.type == "Original" %}
 
-                    <td>{{ bet.match.get_stage_display }}</td>
-                    {% if bet.match.stage == '1' %}
-                    <td>{{ bet.team1.get_group_display }}</td>
-                    {% else %}
-                    <td> --</td>
+                        <td>{{ bet.match.get_stage_display }}</td>
+                        {% if bet.match.stage == '1' %}
+                            <td>{{ bet.team1.get_group_display }}</td>
+                        {% else %}
+                            <td> --</td>
+                        {% endif %}
+                        <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.team1 }} - {{ bet.team2 }}</a></td>
+                        <td>{{ bet.goals_team1 }} - {{ bet.goals_team2 }}</td>
+                        <td>{{ total|result:bet.match }}</td>
                     {% endif %}
-                    <td><a href="{% url 'bet-detail' bet.pk %}">{{ bet.team1 }} - {{ bet.team2 }}</a></td>
-                    <td>{{ bet.goals_team1 }} - {{ bet.goals_team2 }}</td>
-                    <td>{{ total|result:bet.match }}</td>
-                {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

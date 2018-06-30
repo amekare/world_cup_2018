@@ -244,7 +244,8 @@ def update_gamblers():
             gambler = Gambler.objects.get(name=bet.source.name)
             if oficial.goals_team1 == bet.goals_team1 and oficial.goals_team2 == bet.goals_team2:
                 gambler.points_score += 1
-            if result_match(oficial.source.name, oficial.match) == result_match(bet.source.name, bet.match):
+            if result_match(oficial.source.name, oficial.match, "") == result_match(bet.source.name, bet.match,
+                                                                                    bet.type):
                 gambler.points_result += 1
                 gamblers_updated.append(gambler)
             gambler.save()
@@ -255,16 +256,17 @@ def update_gamblers():
 
 
 def update_gamblers2():
-    oficial_results = Bet.objects.filter(source__name='Oficial', type="Consolación")
+    oficial_results = Bet.objects.filter(source__name='Oficial')
     gamblers_updated = []
     for oficial in oficial_results:
         bets = Bet.objects.filter(match=oficial.match, checked=False, type="Consolación")
         for bet in bets:
             gambler = Gambler.objects.get(name=bet.source.name)
             if oficial.goals_team1 == bet.goals_team1 and oficial.goals_team2 == bet.goals_team2:
-                gambler.points_score += 1
-            if result_match(oficial.source.name, oficial.match) == result_match(bet.source.name, bet.match):
-                gambler.points_result += 1
+                gambler.points_score2 += 1
+            if result_match(oficial.source.name, oficial.match, "") == result_match(bet.source.name, bet.match,
+                                                                                    bet.type):
+                gambler.points_result2 += 1
                 gamblers_updated.append(gambler)
             gambler.save()
             bet.checked = True
@@ -273,8 +275,11 @@ def update_gamblers2():
     print(gamblers_updated)
 
 
-def result_match(source, match):
-    bet = Bet.objects.get(source__name=source, match=match)
+def result_match(source, match, type):
+    if len(type) == 0:
+        bet = Bet.objects.get(source__name=source, match=match)
+    else:
+        bet = Bet.objects.get(source__name=source, match=match, type=type)
     if bet.goals_team1 > bet.goals_team2:
         return 'Team 1 won'
     if bet.goals_team1 == bet.goals_team2:
