@@ -25,12 +25,15 @@ urlpatterns = [
     url(r'^bets$', views.BetListView.as_view(), name='bet-list'),
     url(r'^bets-8vo$', views.Bet8voListView.as_view(), name='bet-eight-list'),
     url(r'^bets/(?P<pk>\d+)$', views.BetDetailView.as_view(), name='bet-detail'),
+    url(r'^bets/(?P<pk>\d+)-2$', views.SecondBetDetailView.as_view(), name='second-bet-detail'),
     url(r'^bets/new$', views.BetCreateView.as_view(), name='bet-create'),
     url(r'^bets/(?P<pk>\d+)/edit$', views.BetUpdateView.as_view(), name='bet-update'),
     url(r'^bets/(?P<pk>\d+)/delete$', views.BetDeleteView.as_view(), name='bet-delete'),
 
     url(r'^gamblers$', views.GamblerListView.as_view(), name='gambler-list'),
+    url(r'^gamblers-second$', views.SecondGamblerListView.as_view(), name='second-gambler-list'),
     url(r'^gamblers/(?P<pk>\d+)$', views.GamblerDetailView.as_view(), name='gambler-detail'),
+    url(r'^gamblers/(?P<pk>\d+)-2$', views.SecondGamblerDetailView.as_view(), name='second-gambler-detail'),
     url(r'^gamblers/(?P<pk>\d+)/qualified$', views.qualified_gambler, name='gambler-qualified'),
 
 ]

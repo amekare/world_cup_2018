@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+
+{% block title %}Participantes{% endblock %}
+
+
+{% block content %}
+<h1 class="title">Quiniela de consolación</h1>
+    <h4>Para ver las apuestas de cada persona, dé click en el nombre</h4>
+    <br/>
+    <table class="sortable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Puntos por resultado </th>
+            <th>Puntos por marcador </th>
+            <th>Total de puntos</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for gambler in gambler_list %}
+            <tr>
+                <td><a href="{% url 'second-gambler-detail' gambler.pk %}">{{ gambler.name }}</a></td>
+                <td>{{ gambler.points_result2 }}</td>
+                <td>{{ gambler.points_score2 }}</td>
+                <td>{{ value|total_points2:gambler.name }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

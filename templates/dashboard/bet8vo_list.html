@@ -5,9 +5,7 @@
 
 {% block content %}
     <h1 class="title">Resultados oficiales octavos</h1>
-    {% if bet_list %}
-        <h4 class="title">Total de partidos: {{ bet_list|length }} / Total de puntos: {{ value|played_points:bet_list }} </h4>
-    {% endif %}
+
     <table class="sortable">
         <thead>
         <tr>

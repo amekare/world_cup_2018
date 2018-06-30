@@ -134,6 +134,10 @@ class Gambler(models.Model):
     points_result = models.IntegerField(default=0)
     # points for score hits
     points_score = models.IntegerField(default=0)
+    # points for winner and draw hits in second quiniela
+    points_result2 = models.IntegerField(default=0)
+    # points for score hits in second quiniela
+    points_score2 = models.IntegerField(default=0)
     # points for 8th teams
     points_8vo = models.IntegerField(default=0)
     # points for 4th teams
@@ -144,6 +148,14 @@ class Gambler(models.Model):
     points_3er = models.IntegerField(default=0)
     # points for final teams
     points_final = models.IntegerField(default=0)
+    #
+    points_4vo2 = models.IntegerField(default=0)
+    # points for semi final teams
+    points_semi2 = models.IntegerField(default=0)
+    # points for 3th teams
+    points_3er2 = models.IntegerField(default=0)
+    # points for final teams
+    points_final2 = models.IntegerField(default=0)
 
     def get_total_points(self):
         return self.points_semi + self.points_score + self.points_final + self.points_8vo + self.points_4vo + self.points_3er + self.points_result

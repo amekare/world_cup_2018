@@ -3,7 +3,7 @@
 {% block title %}{{ bet.name }}{% endblock %}
 
 {% block content %}
-    <a class="button is-success" href="{% url 'bet-list' %}">Volver</a>
+    <a class="button is-success" href="{% url 'second-gambler-list' %}">Volver</a>
     <hr>
 
     <div class="level">
@@ -32,7 +32,7 @@
     <div class="level">
         <div>
             <p class="title">
-                Apuestas
+                Apuestas en quiniela de consolación
             </p>
         </div>
         <br/>
@@ -49,18 +49,11 @@
 
             {% for b in bet.sorted_bets_set %}
                 <tr>
-                {% if b.type == "Original" %}
-                    {% if bet.source.name == 'Oficial' %}
-                        {% if b.source.name != 'Oficial' %}
-                            <td>{{ b.source.name }}</td>
-                            <td>{{ b.goals_team1 }} - {{ b.goals_team2 }} </td>
-                        {% endif %}
+                {% if b.type == "Consolación" %}
 
-                    {% else %}
                         <td>{{ b.source.name }}</td>
                         <td>{{ b.goals_team1 }} - {{ b.goals_team2 }} </td>
 
-                    {% endif %}
                 {% endif %}
                 </tr>
             {% endfor %}

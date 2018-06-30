@@ -13,6 +13,13 @@ def total_points(value, arg):
 
 
 @register.filter()
+def total_points2(value, arg):
+    gambler = Gambler.objects.get(name=arg)
+    points = gambler.points_semi2 + gambler.points_score2 + gambler.points_final2 + gambler.points_4vo2 + gambler.points_3er2 + gambler.points_result2
+    return str(points)
+
+
+@register.filter()
 def total_percentage(value, arg):
     gambler = Gambler.objects.get(name=arg)
     oficial_g = Gambler.objects.get(name="Oficial")
@@ -35,7 +42,17 @@ def total_percentage(value, arg):
 @register.filter()
 def result(value, arg):
     try:
-        bet = Bet.objects.get(match=arg, source__name="Oficial")
+        bet = Bet.objects.get(match=arg, source__name="Oficial", type="Original")
+    except Bet.DoesNotExist:
+        return 'Sin jugar'
+
+    return str(bet.goals_team1) + " - " + str(bet.goals_team2)
+
+
+@register.filter()
+def result2(value, arg):
+    try:
+        bet = Bet.objects.get(match=arg, source__name="Oficial", type="Consolación")
     except Bet.DoesNotExist:
         return 'Sin jugar'
 

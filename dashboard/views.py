@@ -134,9 +134,14 @@ class BetDetailView(DetailView):
     model = Bet
 
 
+class SecondBetDetailView(DetailView):
+    model = Bet
+    template_name = "dashboard/second_bet_detail.html"
+
+
 class BetCreateView(CreateView):
     model = Bet
-    fields = ('source', 'match', 'goals_team1', 'goals_team2')
+    fields = ('source', 'match', 'goals_team1', 'goals_team2', 'type')
     # form_class = BetForm
     success_url = reverse_lazy('gambler-list')
 
@@ -159,7 +164,18 @@ class GamblerListView(ListView):
 
     def get_queryset(self):
         queryset = super(GamblerListView, self).get_queryset()
-        return queryset.all().exclude(pk=1).annotate(points=(F('points_score') + (F('points_result'))+ (F('points_8vo')))).order_by(
+        return queryset.all().exclude(pk=1).annotate(
+            points=(F('points_score') + (F('points_result')) + (F('points_8vo')))).order_by(
+            '-points')
+
+
+class SecondGamblerListView(ListView):
+    model = Gambler
+    template_name = "dashboard/second_gambler_list.html"
+
+    def get_queryset(self):
+        queryset = super(SecondGamblerListView, self).get_queryset()
+        return queryset.all().exclude(pk=1).annotate(points=(F('points_score2') + (F('points_result2')))).order_by(
             '-points')
 
 
@@ -167,9 +183,14 @@ class GamblerDetailView(DetailView):
     model = Gambler
 
 
+class SecondGamblerDetailView(DetailView):
+    model = Gambler
+    template_name = "dashboard/second_gambler_detail.html"
+
+
 def update_first_round(stage):
     source = Gambler.objects.get(name='Oficial')
-    results = Bet.objects.filter(source=source, checked=False)
+    results = Bet.objects.filter(source=source, checked=False, type="Original")
     print(results)
     for result in results:
         print(result.checked)
@@ -201,6 +222,7 @@ def update_first_round(stage):
     update_scores(stage)
     print("Actualizados: " + str(len(results)))
     update_gamblers()
+    update_gamblers2()
     if stage == '1':
         get_first_round_position()
 
@@ -214,10 +236,10 @@ def update_scores(stage):
 
 
 def update_gamblers():
-    oficial_results = Bet.objects.filter(source__name='Oficial')
+    oficial_results = Bet.objects.filter(source__name='Oficial', type="Original")
     gamblers_updated = []
     for oficial in oficial_results:
-        bets = Bet.objects.filter(match=oficial.match, checked=False)
+        bets = Bet.objects.filter(match=oficial.match, checked=False, type="Original")
         for bet in bets:
             gambler = Gambler.objects.get(name=bet.source.name)
             if oficial.goals_team1 == bet.goals_team1 and oficial.goals_team2 == bet.goals_team2:
@@ -229,6 +251,25 @@ def update_gamblers():
             bet.checked = True
             bet.save()
     print("Gamblers updated: " + str(len(gamblers_updated)))
+    print(gamblers_updated)
+
+
+def update_gamblers2():
+    oficial_results = Bet.objects.filter(source__name='Oficial', type="Consolación")
+    gamblers_updated = []
+    for oficial in oficial_results:
+        bets = Bet.objects.filter(match=oficial.match, checked=False, type="Consolación")
+        for bet in bets:
+            gambler = Gambler.objects.get(name=bet.source.name)
+            if oficial.goals_team1 == bet.goals_team1 and oficial.goals_team2 == bet.goals_team2:
+                gambler.points_score += 1
+            if result_match(oficial.source.name, oficial.match) == result_match(bet.source.name, bet.match):
+                gambler.points_result += 1
+                gamblers_updated.append(gambler)
+            gambler.save()
+            bet.checked = True
+            bet.save()
+    print("Gamblers in second quiniela updated: " + str(len(gamblers_updated)))
     print(gamblers_updated)
 
 
@@ -487,8 +528,8 @@ def matches_knockout_phase():
     matches = Match.objects.filter(stage=2)
     gamblers = Gambler.objects.all().exclude(name="Oficial")
     for match in matches:
-    #     print("OFicial")
-    #     print(match)
+        #     print("OFicial")
+        #     print(match)
         match_list = []
         team1 = match.team1
         team2 = match.team2
@@ -529,6 +570,3 @@ def load_8vo_stages():
         round1.source = gambler
         round1.team = match.team2
         round1.save()
-
-
-

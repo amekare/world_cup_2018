@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+{% block title %}{{ gambler.name }}{% endblock %}
+
+{% block content %}
+<a class="button is-success" href="{% url 'gambler-list' %}">Volver</a>
+<hr>
+
+<div class="level">
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Nombre</p>
+            <p class="title">{{ gambler.name }}</p>
+        </div>
+    </div>
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Puntos por resultado</p>
+            <p class="title">{{ gambler.points_result2 }}</p>
+        </div>
+    </div>
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Puntos por marcador</p>
+            <p class="title">{{ gambler.points_score2 }}</p>
+        </div>
+    </div>
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Total de puntos</p>
+            <p class="title"> {{ value|total_points2:gambler.name }}</p>
+        </div>
+    </div>
+</div>
+<div class="level">
+
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Pts por equipos a 4tos</p>
+            <p class="title">{{ gambler.points_4vo }}</p>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="level">
+    <div>
+        <p class="title">
+            Apuestas quiniela de consolación
+        </p>
+    </div>
+    <br/>
+
+</div>
+<hr>
+<div class="level">
+    <table class="sortable">
+        <thead>
+        <tr>
+            <th>Fase</th>
+            <th>Partido</th>
+            <th>Apuesta</th>
+            <th>Resultado</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for bet in gambler.bet_set.all %}
+        <tr>
+            {% if bet.type != "Original" %}
+
+                <td>{{ bet.match.get_stage_display }}</td>
+
+                <td><a href="{% url 'second-bet-detail' bet.pk %}">{{ bet.team1 }} - {{ bet.team2 }}</a></td>
+                <td>{{ bet.goals_team1 }} - {{ bet.goals_team2 }}</td>
+                <td>{{ total|result2:bet.match }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+<hr>
+
+
+{% endblock %}
