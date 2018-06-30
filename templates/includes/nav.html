@@ -13,20 +13,19 @@
             <a class="navbar-item" href="{% url 'index' %}">
                 Inicio
             </a>
+            <a class="navbar-item" href="{% url 'gambler-list' %}">
+                Participantes
+            </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link" href="#">
-                    Secciones
+                    Primera ronda
                 </a>
                 <div class="navbar-dropdown is-boxed">
                     <a class="navbar-item" href="{% url 'team-list' %}">
                         Equipos
                     </a>
-
                     <a class="navbar-item" href="{% url 'round-list' %}">
                         Puntos primera ronda
-                    </a>
-                    <a class="navbar-item" href="{% url 'round-eight-list' %}">
-                        Puntos octavos
                     </a>
                     <a class="navbar-item" href="{% url 'qualified-oficial' %}">
                         Clasificados a octavos oficiales
@@ -37,13 +36,21 @@
                     <a class="navbar-item" href="{% url 'bet-list' %}">
                         Resultados oficiales primera fase
                     </a>
-                    <a class="navbar-item" href="{% url 'bet-eight-list' %}">
-                        Resultados oficiales octavos
-                    </a>
-                    <a class="navbar-item" href="{% url 'gambler-list' %}">
-                        Participantes
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="#">
+                    Octavos
+                </a>
+                <div class="navbar-dropdown is-boxed">
+                     <a class="navbar-item" href="{% url 'bet-eight-list' %}">
+                            Resultados oficiales octavos
+                     </a>
+                    <a class="navbar-item" href="{% url 'round-eight-list' %}">
+                            Puntos octavos
                     </a>
                 </div>
+
             </div>
         </div>
     </div>
