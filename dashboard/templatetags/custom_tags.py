@@ -28,7 +28,7 @@ def total_percentage(value, arg):
     points = 0
     for bet in bets:
         try:
-            b = Bet.objects.get(match=bet.match, source=gambler)
+            b = Bet.objects.get(match=bet.match, source=gambler, type="Original")
             if bet.goals_team1 == b.goals_team1 and bet.goals_team2 == b.goals_team2:
                 points += 1
             if result_match(bet.source.name, bet.match,"") == result_match(b.source.name, b.match, b.type):
