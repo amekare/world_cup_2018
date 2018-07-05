@@ -30,7 +30,7 @@ class BetAdmin(admin.ModelAdmin):
 
 class GamblerAdmin(admin.ModelAdmin):
     list_display = ('name', 'points_score', 'points_result', 'get_total_points')
-    search_fields = ('name', '')
+    search_fields = ('name', 'points_result')
 
     ordering = ('name','points_score', 'points_result')
 
