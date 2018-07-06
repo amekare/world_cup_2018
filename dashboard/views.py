@@ -175,7 +175,7 @@ class SecondGamblerListView(ListView):
 
     def get_queryset(self):
         queryset = super(SecondGamblerListView, self).get_queryset()
-        return queryset.all().exclude(pk=1).annotate(points=(F('points_score2') + (F('points_result2')))).order_by(
+        return queryset.all().exclude(pk=1).annotate(points=(F('points_score2') + (F('points_result2'))+ ( F('points_4vo2')))).order_by(
             '-points')
 
 
