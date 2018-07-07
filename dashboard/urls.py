@@ -35,5 +35,7 @@ urlpatterns = [
     url(r'^gamblers/(?P<pk>\d+)$', views.GamblerDetailView.as_view(), name='gambler-detail'),
     url(r'^gamblers/(?P<pk>\d+)-2$', views.SecondGamblerDetailView.as_view(), name='second-gambler-detail'),
     url(r'^gamblers/(?P<pk>\d+)/qualified$', views.qualified_gambler, name='gambler-qualified'),
+    url(r'^gamblers/(?P<pk>\d+)/bets$', views.successful_matches, name='gambler-matches'),
+    url(r'^gamblers/(?P<pk>\d+)/scores$', views.successful_scores, name='gambler-scores'),
 
 ]

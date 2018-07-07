@@ -175,7 +175,8 @@ class SecondGamblerListView(ListView):
 
     def get_queryset(self):
         queryset = super(SecondGamblerListView, self).get_queryset()
-        return queryset.all().exclude(pk=1).annotate(points=(F('points_score2') + (F('points_result2'))+ ( F('points_4vo2')))).order_by(
+        return queryset.all().exclude(pk=1).annotate(
+            points=(F('points_score2') + (F('points_result2')) + (F('points_4vo2')))).order_by(
             '-points')
 
 
@@ -574,3 +575,68 @@ def load_8vo_stages():
         round1.source = gambler
         round1.team = match.team2
         round1.save()
+
+
+def successful_matches(request, pk):
+    gambler = Gambler.objects.get(pk=pk)
+    matches_list = []
+    bets = Bet.objects.filter(source=gambler, type="Original")
+    for bet in bets:
+        oficial = Bet.objects.get(match=bet.match, source__name="Oficial")
+        if result_match(oficial.source.name, oficial.match, "") == result_match(bet.source.name, bet.match,
+                                                                                bet.type):
+            matches_list.append(bet)
+    template = loader.get_template('dashboard/gambler_matches_detail.html')
+    context = {
+        'bet_list': matches_list,
+        'gambler': gambler,
+        'points': len(matches_list)
+
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def successful_scores(request, pk):
+    gambler = Gambler.objects.get(pk=pk)
+    scores_list = []
+    bets = Bet.objects.filter(source=gambler, type="Original")
+    for bet in bets:
+        oficial = Bet.objects.get(match=bet.match, source__name="Oficial")
+        if oficial.goals_team1 == bet.goals_team1 and oficial.goals_team2 == bet.goals_team2:
+            scores_list.append(bet)
+    template = loader.get_template('dashboard/gambler_scores_detail.html')
+    context = {
+        'bet_list': scores_list,
+        'gambler': gambler,
+        'points': len(scores_list)
+
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def get_errors():
+    gamblers = Gambler.objects.all().exclude(name="Oficial")
+    oficial = Gambler.objects.get(name="Oficial")
+    errors = []
+    for gambler in gamblers:
+        scores_points = []
+        bets_points = []
+        bets_list = Bet.objects.filter(source=gambler, type="Original")
+        for bet in bets_list:
+            try:
+                oficial_bet = Bet.objects.get(source=oficial, match=bet.match, type="Original")
+                if oficial_bet.goals_team1 == bet.goals_team1 and oficial_bet.goals_team2 == bet.goals_team2:
+                    scores_points.append(bet)
+                if result_match(oficial_bet.source.name, oficial_bet.match, "") == result_match(bet.source.name, bet.match,
+                                                                                        bet.type):
+                    bets_points.append(bet)
+            except Bet.DoesNotExist:
+                pass
+        if len(scores_points) != gambler.points_score:
+            error = gambler.name + " marcadores: " + str(len(scores_points)) + " vs " + str(gambler.points_score)
+            errors.append(error)
+        if len(bets_points) != gambler.points_result:
+            error = gambler.name + " resultados: " + str(len(bets_points)) + " vs " + str(gambler.points_result)
+            errors.append(error)
+    print(errors)
+

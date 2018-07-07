@@ -59,6 +59,15 @@
     {#    </div>#}
     <hr>
     <div class="level">
+        <div class="level-item has-text-centered">
+            <a href="{% url 'gambler-matches' gambler.pk %}">Ver resultados acertados</a>
+        </div>
+        <div class="level-item has-text-centered">
+            <a href="{% url 'gambler-scores' gambler.pk %}">Ver marcadores acertados</a>
+        </div>
+    </div>
+    <hr>
+    <div class="level">
         <div>
             <p class="title">
                 Apuestas quiniela original

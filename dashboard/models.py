@@ -31,7 +31,7 @@ class Round(models.Model):
     ROUND_CHOICES = (
         ('1', 'Primera fase'),
         ('2', 'Octavos'),
-        ('3', 'Cuarto'),
+        ('3', 'Cuartos'),
         ('4', 'Semifinales'),
         ('5', 'Tercer lugar'),
         ('6', 'Finales'),
@@ -114,7 +114,7 @@ class Match(models.Model):
     STAGE_CHOICES = (
         ('1', 'Primera fase'),
         ('2', 'Octavos'),
-        ('3', 'Cuarto'),
+        ('3', 'Cuartos'),
         ('4', 'Semifinales'),
         ('5', 'Tercer lugar'),
         ('6', 'Finales'),
