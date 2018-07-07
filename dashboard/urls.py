@@ -24,6 +24,7 @@ urlpatterns = [
 
     url(r'^bets$', views.BetListView.as_view(), name='bet-list'),
     url(r'^bets-8vo$', views.Bet8voListView.as_view(), name='bet-eight-list'),
+    url(r'^bets-4vo$', views.Bet4voListView.as_view(), name='bet-fourth-list'),
     url(r'^bets/(?P<pk>\d+)$', views.BetDetailView.as_view(), name='bet-detail'),
     url(r'^bets/(?P<pk>\d+)-2$', views.SecondBetDetailView.as_view(), name='second-bet-detail'),
     url(r'^bets/new$', views.BetCreateView.as_view(), name='bet-create'),
@@ -37,5 +38,7 @@ urlpatterns = [
     url(r'^gamblers/(?P<pk>\d+)/qualified$', views.qualified_gambler, name='gambler-qualified'),
     url(r'^gamblers/(?P<pk>\d+)/bets$', views.successful_matches, name='gambler-matches'),
     url(r'^gamblers/(?P<pk>\d+)/scores$', views.successful_scores, name='gambler-scores'),
+
+    url(r'^data$', views.data, name='data'),
 
 ]

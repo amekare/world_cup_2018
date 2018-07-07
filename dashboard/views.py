@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.template import loader
 from django.db.models import Q
 from operator import itemgetter
@@ -128,6 +129,15 @@ class Bet8voListView(ListView):
     def get_queryset(self):
         queryset = super(Bet8voListView, self).get_queryset()
         return queryset.filter(source__name="Oficial", match__stage="2")
+
+
+class Bet4voListView(ListView):
+    model = Bet
+    template_name = "dashboard/bet4vo_list.html"
+
+    def get_queryset(self):
+        queryset = super(Bet4voListView, self).get_queryset()
+        return queryset.filter(source__name="Oficial", match__stage="3")
 
 
 class BetDetailView(DetailView):
@@ -639,4 +649,8 @@ def get_errors():
             error = gambler.name + " resultados: " + str(len(bets_points)) + " vs " + str(gambler.points_result)
             errors.append(error)
     print(errors)
+
+
+def data(request):
+    return render(request, 'dashboard/data.html')
 

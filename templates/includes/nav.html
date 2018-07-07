@@ -15,7 +15,7 @@
             </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link" href="#">
-                    Resultados
+                    Quinielas
                 </a>
                 <div class="navbar-dropdown is-boxed">
                     <a class="navbar-item" href="{% url 'gambler-list' %}">
@@ -28,40 +28,56 @@
             </div>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link" href="#">
-                    Primera ronda
+                    Partidos pasados
                 </a>
                 <div class="navbar-dropdown is-boxed">
-                    <a class="navbar-item" href="{% url 'team-list' %}">
-                        Equipos
-                    </a>
-                    <a class="navbar-item" href="{% url 'round-list' %}">
-                        Puntos primera ronda
-                    </a>
-                    <a class="navbar-item" href="{% url 'qualified-oficial' %}">
-                        Clasificados a octavos oficiales
-                    </a>
+{#                    <a class="navbar-item" href="{% url 'team-list' %}">#}
+{#                        Equipos#}
+{#                    </a>#}
+{#                    <a class="navbar-item" href="{% url 'round-list' %}">#}
+{#                        Puntos primera ronda#}
+{#                    </a>#}
+{#                    <a class="navbar-item" href="{% url 'qualified-oficial' %}">#}
+{#                        Clasificados a octavos oficiales#}
+{#                    </a>#}
                     {#                    <a class="navbar-item" href="{% url 'qualified-gamblers' %}">#}
                     {#                        Clasificados a octavos por participantes#}
                     {#                    </a>#}
                     <a class="navbar-item" href="{% url 'bet-list' %}">
                         Resultados oficiales primera fase
                     </a>
+                    <a class="navbar-item" href="{% url 'bet-eight-list' %}">
+                        Resultados oficiales octavos
+                    </a>
+                    <a class="navbar-item" href="{% url 'bet-fourth-list' %}">
+                        Resultados oficiales cuartos
+                    </a>
                 </div>
             </div>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link" href="#">
-                    Octavos
+                    Otros
                 </a>
                 <div class="navbar-dropdown is-boxed">
-                    <a class="navbar-item" href="{% url 'bet-eight-list' %}">
-                        Resultados oficiales octavos
-                    </a>
-                    <a class="navbar-item" href="{% url 'round-eight-list' %}">
-                        Puntos octavos
+                    <a class="navbar-item" href="{% url 'data' %}">
+                        Datos
                     </a>
                 </div>
-
             </div>
+{#            <div class="navbar-item has-dropdown is-hoverable">#}
+{#                <a class="navbar-link" href="#">#}
+{#                    Octavos#}
+{#                </a>#}
+{#                <div class="navbar-dropdown is-boxed">#}
+{#                    <a class="navbar-item" href="{% url 'bet-eight-list' %}">#}
+{#                        Resultados oficiales octavos#}
+{#                    </a>#}
+{#                    <a class="navbar-item" href="{% url 'round-eight-list' %}">#}
+{#                        Puntos octavos#}
+{#                    </a>#}
+{#                </div>#}
+{##}
+{#            </div>#}
         </div>
     </div>
 </nav>
