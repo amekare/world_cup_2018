@@ -130,7 +130,7 @@ def load_second_football_pools():
     # 6: 'Suecia-Suiza'
     # 7: 'Colombia-Inglaterra'
     teams = ['Uruguay-Portugal', 'Francia-Argentina', 'Brasil-Mexico', 'Bélgica-Japón', 'España-Rusia',
-             'Croacia-Dinamarca', 'Suecia-Suiza', 'Colombia-Inglaterra']
+            'Croacia-Dinamarca', 'Suecia-Suiza', 'Colombia-Inglaterra']
     matches = []
     for team in teams:
         team1, team2 = team.split("-")
@@ -160,3 +160,42 @@ def load_second_football_pools():
                     except IntegrityError as e:
                         print(bet)
                         pass
+
+
+def load_fourth_football_pools():
+    # 0: 'Uruguay-Francia'
+    # 1: 'Brasil-Bélgica'
+    # 2: 'Rusia-Croacia'
+    # 3: 'Suecia-Inglaterra'
+    teams = ['Uruguay-Francia', 'Brasil-Bélgica', 'Rusia-Croacia', 'Suecia-Inglaterra']
+    matches = []
+    for team in teams:
+        team1, team2 = team.split("-")
+        try:
+            match = Match.objects.get(team1__name=team1, team2__name=team2)
+            matches.append(match)
+        except Match.DoesNotExist:
+            pass
+    with open('resources/quinielac4to.csv') as csvfile:
+        readCSV = csv.reader(csvfile, delimiter=',')
+        for row in readCSV:
+            name = row[0].strip()
+            if name != 'nombre':
+                gambler = Gambler.objects.get(name=name)
+                for x in range(0, 4):
+                    bet = Bet()
+                    bet.source = gambler
+                    bet.match = matches[x]
+                    bet.team1 = match.team1
+                    bet.team2 = match.team2
+                    if row[x+1] != '--':
+                        score1, score2 = row[x+1].split("-")
+                        bet.goals_team1 = score1
+                        bet.goals_team2 = score2
+                        bet.type = "Consolación"
+                        try:
+                            bet.save()
+                        except IntegrityError as e:
+                            print(bet)
+                            pass
+
