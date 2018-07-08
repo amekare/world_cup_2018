@@ -16,6 +16,7 @@
             <th style="text-align: center">Puntos por resultado </th>
             <th style="text-align: center">Puntos por marcador </th>
             <th style="text-align: center">Pts por equipos a cuartos </th>
+            <th style="text-align: center">Pts por equipos a semifinales </th>
             <th style="text-align: center">Total de puntos</th>
         </tr>
         </thead>
@@ -26,6 +27,7 @@
                 <td style="text-align: center">{{ gambler.points_result2 }}</td>
                 <td style="text-align: center">{{ gambler.points_score2 }}</td>
                 <td style="text-align: center">{{ gambler.points_4vo2 }}</td>
+                <td style="text-align: center">{{ gambler.points_semi2 }}</td>
                 <td style="text-align: center">{{ value|total_points2:gambler.name }}</td>
 
             </tr>
