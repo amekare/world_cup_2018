@@ -199,3 +199,39 @@ def load_fourth_football_pools():
                             print(bet)
                             pass
 
+
+def load_semi_football_pools():
+    # 0: 'Francia-Bélgica'
+    # 1: 'Croacia-Inglaterra'
+    teams = ['Francia-Bélgica', 'Croacia-Inglaterra']
+    matches = []
+    for team in teams:
+        team1, team2 = team.split("-")
+        try:
+            match = Match.objects.get(team1__name=team1, team2__name=team2)
+            matches.append(match)
+        except Match.DoesNotExist:
+            pass
+    with open('resources/quinielacsemi.csv') as csvfile:
+        readCSV = csv.reader(csvfile, delimiter=',')
+        for row in readCSV:
+            name = row[0].strip()
+            if name != 'nombre':
+                gambler = Gambler.objects.get(name=name)
+                for x in range(0, 2):
+                    bet = Bet()
+                    bet.source = gambler
+                    bet.match = matches[x]
+                    bet.team1 = match.team1
+                    bet.team2 = match.team2
+                    if row[x+1] != '--':
+                        score1, score2 = row[x+1].split("-")
+                        bet.goals_team1 = score1
+                        bet.goals_team2 = score2
+                        bet.type = "Consolación"
+                        try:
+                            bet.save()
+                        except IntegrityError as e:
+                            print(bet)
+                            pass
+
