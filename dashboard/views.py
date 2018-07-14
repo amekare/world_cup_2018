@@ -175,7 +175,7 @@ class GamblerListView(ListView):
     def get_queryset(self):
         queryset = super(GamblerListView, self).get_queryset()
         return queryset.all().exclude(pk=1).annotate(
-            points=(F('points_score') + (F('points_result')) + (F('points_8vo')) + (F('points_4vo')) + (F('points_semi')))).order_by(
+            points=(F('points_score') + (F('points_result')) + (F('points_8vo')) + (F('points_4vo')) + (F('points_semi')) (F('points_3er')))).order_by(
             '-points')
 
 
@@ -186,7 +186,7 @@ class SecondGamblerListView(ListView):
     def get_queryset(self):
         queryset = super(SecondGamblerListView, self).get_queryset()
         return queryset.all().exclude(pk=1).annotate(
-            points=(F('points_score2') + (F('points_result2')) + (F('points_4vo2')) + (F('points_semi2')))).order_by(
+            points=(F('points_score2') + (F('points_result2')) + (F('points_4vo2')) + (F('points_semi2')) + (F('points_3er2')) + (F('points_final2')))).order_by(
             '-points')
 
 
